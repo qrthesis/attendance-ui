@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import styles from "./styles.module.css";
+
+import Header from "./Header";
 
 const DashboardPage: React.FC = () => {
   return (
-    <div className={styles.container}>
+    <div>
+      <Header/>
         User has logged in
     </div>
   );

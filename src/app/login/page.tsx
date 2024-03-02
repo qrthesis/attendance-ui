@@ -14,6 +14,12 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
+  const handleClearFields = () => {
+    setEmail("")
+    setPassword("")
+    setError("")
+  }
+
   const handleLogin = async () => {
     setIsLoading(true)
     // You can add your login logic here
@@ -27,6 +33,7 @@ const LoginPage: React.FC = () => {
     if (!user) {
       setError("User credentials are invalid!")
     } else {
+      handleClearFields()
       router.replace('/dashboard')
     }
   };
