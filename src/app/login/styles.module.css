@@ -44,3 +44,9 @@
 .localButton:hover {
   background-color: #45a049;
 }
+
+.errorText {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
+}
