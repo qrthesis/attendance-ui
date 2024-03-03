@@ -1,0 +1,28 @@
+/* styles/Login.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.localButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.localButton:hover {
+  background-color: #45a049;
+}
+
+.errorText {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
+}

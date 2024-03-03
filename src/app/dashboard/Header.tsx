@@ -25,7 +25,7 @@ const Header: React.FC<IHeaderProps> = ({
                 <Link href="/dashboard/register-user">Register User</Link>
               </li>
               <li className={styles.navItem}>
-                <Link href="/dashboard/create-event" >Create Event</Link>
+                <Link href="/dashboard/events" >Events</Link>
               </li>
             </>
           )}

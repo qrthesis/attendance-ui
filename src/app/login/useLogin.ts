@@ -41,12 +41,12 @@ const useLogin = () => {
 
         if (!user) {
             setPageIndicators({
-                error: 'User credentials are ivnalid!',
+                error: 'User credentials are invalid!',
                 isLoading: false
             })
         } else {
-            dispatch(saveUser(user))
             handleResetFields()
+            dispatch(saveUser(user))
             router.replace('/dashboard')
         }
     }
@@ -56,6 +56,10 @@ const useLogin = () => {
             ...prevState,
             [key]: value
         }))
+
+        if (pageIndicators.error !== '') {
+            setPageIndicators((prevState: any) => ({...prevState, error: ''}))
+        }
     } 
 
     return {
