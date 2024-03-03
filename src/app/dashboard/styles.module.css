@@ -23,10 +23,6 @@
   justify-content: flex-end; /* Align tabs to the right */
 }
 
-.navList li {
-  margin-right: 20px;
-}
-
 .navList a {
   color: white;
   text-decoration: none;
@@ -35,4 +31,13 @@
 
 .navList a:hover {
   border-bottom: 2px solid white;
+}
+
+.navItem {
+  margin-right: 20px; /* Margin on the right for Create Event, Register User, Logout */
+}
+
+.home {
+  margin-left: auto; /* Align Home to the right by setting left margin to 'auto' */
+  margin-right: 20px; /* Add an additional 20px margin to the right of Home */
 }

@@ -3,11 +3,18 @@ import React, { useState } from "react";
 
 import Header from "./Header";
 
+import useDashboard from "./useDashboard";
+
 const DashboardPage: React.FC = () => {
+  const { user } = useDashboard()
+
+
+  console.log(user)
+
   return (
     <div>
-      <Header/>
-        User has logged in
+      <Header role={user?.role}/>
+      Table
     </div>
   );
 };

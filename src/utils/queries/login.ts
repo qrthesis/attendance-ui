@@ -6,7 +6,7 @@ export const login = async (email: string, password: string) => {
         email,
         password: btoa(password)
     })
-        return res.data;
+        return res.data.user;
    } catch (error) {
         return null 
    }

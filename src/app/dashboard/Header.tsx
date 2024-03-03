@@ -4,18 +4,32 @@ import React from 'react';
 import Link from 'next/link';
 import styles from './styles.module.css';
 
-const Header = () => {
+interface IHeaderProps {
+  role: 'admin' | 'student' | undefined
+}
+
+const Header: React.FC<IHeaderProps> = ({
+  role
+}) => {
+
   return (
     <header className={styles.header}>
       <nav>
         <ul className={styles.navList}>
-          <li>
-            <Link href="/dashboard/register-user">Register User</Link>
+          <li className={`${styles.navItem} ${styles.home}`}>
+            <Link href="/dashboard">Home</Link>
           </li>
-          <li>
-            <Link href="/dashboard/create-event">Create Event</Link>
-          </li>
-          <li>
+          {role === 'admin' && (
+            <>
+              <li className={styles.navItem}>
+                <Link href="/dashboard/register-user">Register User</Link>
+              </li>
+              <li className={styles.navItem}>
+                <Link href="/dashboard/create-event" >Create Event</Link>
+              </li>
+            </>
+          )}
+          <li className={styles.navItem}>
             <Link href="/logout">Logout</Link>
           </li>
         </ul>

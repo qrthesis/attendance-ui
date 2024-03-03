@@ -1,52 +1,24 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from 'next/navigation'
 
 import styles from "./styles.module.css";
 
-import { login } from "@/utils/queries/login";
+import useLogin from "./useLogin";
 
 const LoginPage: React.FC = () => {
-  const router = useRouter();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleClearFields = () => {
-    setEmail("")
-    setPassword("")
-    setError("")
-  }
-
-  const handleLogin = async () => {
-    setIsLoading(true)
-    // You can add your login logic here
-    console.log("Logging in with:", { email, password });
-
-    const user = await login(email, password)
-
-    console.log('Result ', user)
-
-    setIsLoading(false)
-    if (!user) {
-      setError("User credentials are invalid!")
-    } else {
-      handleClearFields()
-      router.replace('/dashboard')
+  
+  const {
+    handleFieldChange,
+    handleLogin,
+    userCredential: {
+      email,
+      password
+    },
+    pageIndicators: {
+      error,
+      isLoading
     }
-  };
-  
-  const handleEmailChange = (e: any) => {
-    setError("")
-     setEmail(e.target.value)
-  }
-  
-  const handlePasswordChange = (e: any) => {
-    setError("")
-    setPassword(e.target.value)
-  }
+  } = useLogin()
 
   return (
     <div className={styles.container}>
@@ -61,7 +33,7 @@ const LoginPage: React.FC = () => {
             type="text"
             id="email"
             value={email}
-            onChange={handleEmailChange}
+            onChange={(e) => handleFieldChange('email', e.target.value)}
           />
         </div>
         <div className={styles.inputGroup}>
@@ -73,7 +45,7 @@ const LoginPage: React.FC = () => {
             type="password"
             id="password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={(e) => handleFieldChange('password', e.target.value)}
           />
         </div>
         {error && <p className={styles.errorText}>{error}</p>}
