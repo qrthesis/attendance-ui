@@ -109,14 +109,19 @@ const CreateEventPage: React.FC<any> = () => {
         </Box>
       </Modal>
       <Snackbar
+        color='primary'
         anchorOrigin={{
           horizontal: 'center',
           vertical: 'top'
         }}
         open={snackbar.isVisible}
-        onClose={snackbar.updateVisibility}
+        onClose={snackbar.onClose}
         message={snackbar.message}
+        TransitionComponent={snackbar.transition}
+        key={snackbar.transition.name}
+        autoHideDuration={1200}
       />
+      
     </>
   );
 }

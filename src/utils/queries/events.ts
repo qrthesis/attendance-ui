@@ -7,7 +7,10 @@ export const createEvent = async (eventName: string, description: string, date: 
         description,
         date
     })
-        return res.data;
+        return {
+            message: res.data.message,
+            status: res.status 
+        };
    } catch (error) {
         return null 
    }

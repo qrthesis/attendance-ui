@@ -1,19 +1,53 @@
 import { createEvent } from '@/utils/queries/events'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+
+
+import React, { useState } from 'react'
+
+import Fade from '@mui/material/Fade';
+import { TransitionProps } from '@mui/material/transitions';
+
 const useEvent = () => {
 
     const [isCreateEventModalVisible, setIsCreateModalVisible] = useState<boolean>(false)
-    const [isSnackbarVisible, setIsSnackbarVisible] = useState<boolean>(false)
-    const [snackbarMessage, setSnackbarMessage] = useState<string>('')
-    const [createEventFields, setcreateEventFields] = useState({
+    const [createEventFields, setCreateEventFields] = useState({
         name: "",
         description: "",
         date: ""
     })
-    
+    const [snackbarState, setSnackbarState] = useState<{
+        open: boolean;
+        Transition: React.ComponentType<
+          TransitionProps & {
+            children: React.ReactElement<any, any>;
+          }
+        >;
+        message: string;
+      }>({
+        open: false,
+        Transition: Fade,
+        message: ''
+      });
+
+    const handleOpenSnackbar = (message: string) => {
+        return setSnackbarState((prevState) => ({
+            ...prevState, 
+            open: true,
+            message
+        }));
+    }
+
+    const handleCloseSnackbar = () => {
+        return setSnackbarState({
+            open: false,
+            Transition: Fade,
+            message: ''
+        })
+    }
+
+      
     const handleCreateEventFieldChange = (key: string, value: any) => {
-        setcreateEventFields(prevState => ({
+        setCreateEventFields(prevState => ({
             ...prevState,
             [key]: value
         }))
@@ -26,14 +60,16 @@ const useEvent = () => {
             dayjs(createEventFields.date).unix()
         )
 
-        if (result.status === 200) {
+        if (result?.status === 200) {
+            setCreateEventFields({
+                name: "",
+                description: "",
+                date: ""
+            })
             setIsCreateModalVisible(prevState => !prevState)
-            setIsSnackbarVisible(prevState => !prevState)
-            setSnackbarMessage(result.message)
+            handleOpenSnackbar(result?.message)
         } else {
-            setIsCreateModalVisible(prevState => !prevState)
-            setIsSnackbarVisible(prevState => !prevState)
-            setSnackbarMessage(result.message)
+            handleOpenSnackbar("Event creation failed!!")
         }
     }
 
@@ -47,9 +83,10 @@ const useEvent = () => {
             handler: handleCreateEventFieldChange
         },
         snackbar: {
-            isVisible: isSnackbarVisible,
-            message: snackbarMessage,
-            updateVisibility: () => setIsSnackbarVisible(prevState => !prevState)    
+            isVisible: snackbarState.open,
+            message: snackbarState.message,
+            onClose: handleCloseSnackbar,
+            transition: snackbarState.Transition
         },
         handleCreateEvent
     }
