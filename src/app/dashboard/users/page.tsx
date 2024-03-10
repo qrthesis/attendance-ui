@@ -34,7 +34,6 @@ const RegisterUserPage: React.FC<any> = () => {
         adminUser={state.adminDetails}
         updateAdminDetails={handlers.updateAdminDetails}
         addAdmin={handlers.addAdmin}
-        formatTableData={handlers.formatTableData}
       />
       <BasicTable
         tableKey="admin-user-table"
