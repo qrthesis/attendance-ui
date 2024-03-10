@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,9 +14,11 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
   const renderRowHeaders = () => {
     return rowHeaders.map((header: string, index: number) => {
       return (
-        <TableCell key={`${tableKey}-${header}-${index}`} align="center">
-          {header}
-        </TableCell>
+        <Fragment key={`${tableKey}-${header}-${index}`}>
+          <TableCell key={`${tableKey}-${header}-${index}`} align="center">
+            {header}
+          </TableCell>
+        </Fragment>
       );
     });
   };
@@ -24,9 +26,11 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
   const renderRowData = (row) => {
     return row.map((item: string, index: number) => {
       return (
-        <TableCell key={`${tableKey}-${item}-${index}`} align="center">
-          {item}
-        </TableCell>
+        <Fragment key={`${tableKey}-${header}-${index}`}>
+          <TableCell key={`${tableKey}-${item}-${index}`} align="center">
+            {item}
+          </TableCell>
+        </Fragment>
       );
     });
   };
