@@ -32,12 +32,18 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
   };
 
   return (
-    <TableContainer component={Card} key={tableKey}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer component={Card} key={`table-container-${tableKey}`}>
+      <Table
+        sx={{ minWidth: 650 }}
+        aria-label="simple table"
+        key={`table-${tableKey}`}
+      >
         <TableHead>
-          <TableRow>{renderRowHeaders()}</TableRow>
+          <TableRow key={`${tableKey}-table-head-row`}>
+            {renderRowHeaders()}
+          </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody key={`${tableKey}-table-body-row`}>
           {rowData.map((row: any, index: number) => (
             <TableRow
               key={`${row}-${index}`}
