@@ -84,6 +84,7 @@ const CreateEventPage: React.FC<any> = () => {
           <AccordionDetails>
             {upcoming.length > 0 ? (
               <BasicTable
+                tableKey="upcoming-events-table"
                 rowHeaders={["Name", "Description", "Date"]}
                 rowData={[
                   "Event 1",
@@ -113,6 +114,7 @@ const CreateEventPage: React.FC<any> = () => {
           <AccordionDetails>
             {inProgress.length > 0 ? (
               <BasicTable
+                tableKey="inprogress-events-table"
                 rowHeaders={["Event Name", "Description", "Date"]}
                 rowData={[
                   "Event 1",
@@ -141,6 +143,7 @@ const CreateEventPage: React.FC<any> = () => {
           <AccordionDetails>
             {completed.length > 0 ? (
               <BasicTable
+                tableKey="completed-events-table"
                 rowHeaders={["Name", "Description", "Date"]}
                 rowData={formatTableData("completed")}
               />

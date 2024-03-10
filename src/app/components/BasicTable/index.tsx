@@ -10,21 +10,29 @@ import Card from "@mui/material/Card";
 
 import { ITableProps } from "./types";
 
-const BasicTable = ({ rowHeaders, rowData }: ITableProps) => {
+const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
   const renderRowHeaders = () => {
-    return rowHeaders.map((header) => {
-      return <TableCell align="center">{header}</TableCell>;
+    return rowHeaders.map((header: string, index: number) => {
+      return (
+        <TableCell key={`${tableKey}-${header}-${index}`} align="center">
+          {header}
+        </TableCell>
+      );
     });
   };
 
   const renderRowData = (row) => {
-    return row.map((item: any) => {
-      return <TableCell align="center">{item}</TableCell>;
+    return row.map((item: string, index: number) => {
+      return (
+        <TableCell key={`${tableKey}-${item}-${index}`} align="center">
+          {item}
+        </TableCell>
+      );
     });
   };
 
   return (
-    <TableContainer component={Card}>
+    <TableContainer component={Card} key={tableKey}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>{renderRowHeaders()}</TableRow>

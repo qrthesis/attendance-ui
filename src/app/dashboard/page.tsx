@@ -1,19 +1,26 @@
 "use client";
 import React, { useState } from "react";
 
+import { useRouter } from "next/navigation";
+
 import Header from "./Header";
 
 import useDashboard from "./useDashboard";
 
 const DashboardPage: React.FC = () => {
-  const { user } = useDashboard()
+  const { user } = useDashboard();
 
+  const router = useRouter();
 
-  console.log(user)
+  console.log(user);
+
+  // useEffect(() => {
+  //   router.push("/dashboard/events");
+  // }, []);
 
   return (
     <div>
-      <Header role={user?.role}/>
+      <Header role={user?.role} />
       Table
     </div>
   );
