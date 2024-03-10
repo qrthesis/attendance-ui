@@ -86,11 +86,7 @@ const CreateEventPage: React.FC<any> = () => {
               <BasicTable
                 tableKey="upcoming-events-table"
                 rowHeaders={["Name", "Description", "Date"]}
-                rowData={[
-                  "Event 1",
-                  "Description 1",
-                  dayjs().format("MM/DD/YYYY"),
-                ]}
+                rowData={formatTableData("upcoming")}
               />
             ) : (
               <Typography>No upcoming events yet</Typography>
@@ -116,11 +112,7 @@ const CreateEventPage: React.FC<any> = () => {
               <BasicTable
                 tableKey="inprogress-events-table"
                 rowHeaders={["Event Name", "Description", "Date"]}
-                rowData={[
-                  "Event 1",
-                  "Description 1",
-                  dayjs().format("MM/DD/YYYY"),
-                ]}
+                rowData={formatTableData("inProgress")}
               />
             ) : (
               <Typography>No in-progress events</Typography>
