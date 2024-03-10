@@ -23,7 +23,7 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
     });
   };
 
-  const renderRowData = (row) => {
+  const renderRowData = (row: any) => {
     return row.map((item: string, index: number) => {
       return (
         <Fragment key={`${tableKey}-${header}-${index}`}>
