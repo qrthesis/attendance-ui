@@ -49,10 +49,6 @@ const CreateEventPage: React.FC<any> = () => {
   };
 
   const formatTableData = (event: "upcoming" | "completed" | "inProgress") => {
-    if (!events.data[event]) {
-      return [];
-    }
-
     return events.data[event].map((event: any) => {
       return [
         event.name,
