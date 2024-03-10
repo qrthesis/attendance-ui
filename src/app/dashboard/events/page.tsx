@@ -93,7 +93,7 @@ const CreateEventPage: React.FC<any> = () => {
                 ]}
               />
             ) : (
-              <Typography variant="h9">No upcoming events yet</Typography>
+              <Typography>No upcoming events yet</Typography>
             )}
           </AccordionDetails>
         </Accordion>
@@ -123,7 +123,7 @@ const CreateEventPage: React.FC<any> = () => {
                 ]}
               />
             ) : (
-              <Typography variant="h9">No in-progress events</Typography>
+              <Typography>No in-progress events</Typography>
             )}
           </AccordionDetails>
         </Accordion>
@@ -148,7 +148,7 @@ const CreateEventPage: React.FC<any> = () => {
                 rowData={formatTableData("completed")}
               />
             ) : (
-              <Typography variant="h9">No completed events yet</Typography>
+              <Typography>No completed events yet</Typography>
             )}
           </AccordionDetails>
         </Accordion>
