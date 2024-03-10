@@ -74,6 +74,7 @@ const useEvent = () => {
       });
       setIsCreateModalVisible((prevState) => !prevState);
       handleOpenSnackbar(result?.message);
+      fetchEvents();
     } else {
       handleOpenSnackbar("Event creation failed!!");
     }

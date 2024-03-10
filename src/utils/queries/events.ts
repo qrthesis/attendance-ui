@@ -23,7 +23,8 @@ export const createEvent = async (
 export const getEvents = async () => {
   try {
     const res = await axiosInstance.get("/get-events");
-    return res.data;
+    console.log("DATA ", res);
+    return res.data.data;
   } catch (error) {
     return null;
   }

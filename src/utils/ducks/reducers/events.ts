@@ -21,7 +21,7 @@ const eventsSlice = createSlice({
   initialState,
   reducers: {
     saveEvents: (state, action) => {
-      const fetchedEvents = action.payload.data;
+      const fetchedEvents = action.payload;
 
       let upcomingEvents = [],
         inProgressEvents = [],
