@@ -50,7 +50,7 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
             </TableRow>
           </TableHead>
           <TableBody key={`${tableKey}-table-body-row`}>
-            {rowData?.length > 0 ? (
+            {rowData.length > 0 || !rowData ? (
               rowData.map((row: any, index: number) => (
                 <Fragment key={`${tableKey}-}-table-body-row-${index}`}>
                   <TableRow
