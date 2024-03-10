@@ -1,26 +1,58 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit'
-
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
 interface IEventsState {
-    savedEvents: Array<any>
+  events: {
+    completed: Array<any>;
+    upcoming: Array<any>;
+    inProgress: Array<any>;
+  };
 }
 
 const initialState: IEventsState = {
-    savedEvents: []
-}
+  events: {
+    completed: [],
+    upcoming: [],
+    inProgress: [],
+  },
+};
 
 const eventsSlice = createSlice({
-  name: 'events',
+  name: "events",
   initialState,
   reducers: {
+    saveEvents: (state, action) => {
+      const fetchedEvents = action.payload.data;
+
+      let upcomingEvents = [],
+        inProgressEvents = [],
+        completedEvents = [];
+
+      fetchedEvents.forEach((event: any) => {
+        const eventDate = new Date(event.date);
+        if (eventDate > new Date()) {
+          upcomingEvents.push(event);
+        } else if (eventDate < new Date()) {
+          completedEvents.push(event);
+        } else {
+          inProgressEvents.push(event);
+        }
+      });
+
+      return {
+        ...state,
+        events: {
+          completed: completedEvents,
+          upcoming: upcomingEvents,
+          inProgress: inProgressEvents,
+        },
+      };
+    },
     resetState: (state) => ({
-        ...initialState
-    })
-  }
-})
+      ...initialState,
+    }),
+  },
+});
 
-export const {
-    resetState, 
-} = eventsSlice.actions
+export const { saveEvents, resetState } = eventsSlice.actions;
 
-export default eventsSlice.reducer
+export default eventsSlice.reducer;
