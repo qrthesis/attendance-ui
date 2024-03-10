@@ -23,9 +23,9 @@ const eventsSlice = createSlice({
     saveEvents: (state, action) => {
       const fetchedEvents = action.payload;
 
-      let upcomingEvents = [],
-        inProgressEvents = [],
-        completedEvents = [];
+      let upcomingEvents: any = [],
+        inProgressEvents: any = [],
+        completedEvents: any = [];
 
       fetchedEvents.forEach((event: any) => {
         const eventDate = new Date(event.date);
