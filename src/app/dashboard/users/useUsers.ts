@@ -13,14 +13,13 @@ import { IAdminUser, ICreateUserModal } from "./types";
 
 const useUser = () => {
   const { admin } = useAppSelector((state) => state.usersSlice);
+  const { user: loggedInUser } = useAppSelector((state) => state.authSlice);
 
   const [adminDetails, setAdminDetails] = useState<IAdminUser>({
     name: "",
     email: "",
     password: "",
   });
-
-  console.log("DUCKS ADMIB", admin);
 
   const [modalVisibility, setModalVisibility] = useState<ICreateUserModal>({
     admin: false,
@@ -45,7 +44,9 @@ const useUser = () => {
 
   const formatTableData = (user: "admin" | "student") => {
     if (user === "admin") {
-      return admin.map((_admin: any) => [_admin.name, _admin.email]);
+      return admin
+        .filter((userAdmin: any) => userAdmin.email !== loggedInUser?.email)
+        .map((_admin: any) => [_admin.name, _admin.email]);
     }
   };
 

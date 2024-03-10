@@ -82,15 +82,11 @@ const CreateEventPage: React.FC<any> = () => {
             <Typography variant="h6">Upcoming Events</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {upcoming.length > 0 ? (
-              <BasicTable
-                tableKey="upcoming-events-table"
-                rowHeaders={["Name", "Description", "Date"]}
-                rowData={formatTableData("upcoming")}
-              />
-            ) : (
-              <Typography>No upcoming events yet</Typography>
-            )}
+            <BasicTable
+              tableKey="upcoming-events-table"
+              rowHeaders={["Name", "Description", "Date"]}
+              rowData={formatTableData("upcoming")}
+            />
           </AccordionDetails>
         </Accordion>
 
@@ -108,15 +104,11 @@ const CreateEventPage: React.FC<any> = () => {
             <Typography variant="h6">In Progress Events</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {inProgress.length > 0 ? (
-              <BasicTable
-                tableKey="inprogress-events-table"
-                rowHeaders={["Event Name", "Description", "Date"]}
-                rowData={formatTableData("inProgress")}
-              />
-            ) : (
-              <Typography>No in-progress events</Typography>
-            )}
+            <BasicTable
+              tableKey="inprogress-events-table"
+              rowHeaders={["Event Name", "Description", "Date"]}
+              rowData={formatTableData("inProgress")}
+            />
           </AccordionDetails>
         </Accordion>
 
@@ -133,15 +125,11 @@ const CreateEventPage: React.FC<any> = () => {
             <Typography variant="h6">Completed Events</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {completed.length > 0 ? (
-              <BasicTable
-                tableKey="completed-events-table"
-                rowHeaders={["Name", "Description", "Date"]}
-                rowData={formatTableData("completed")}
-              />
-            ) : (
-              <Typography>No completed events yet</Typography>
-            )}
+            <BasicTable
+              tableKey="completed-events-table"
+              rowHeaders={["Name", "Description", "Date"]}
+              rowData={formatTableData("completed")}
+            />
           </AccordionDetails>
         </Accordion>
       </Box>

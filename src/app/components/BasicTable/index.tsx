@@ -50,16 +50,28 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
             </TableRow>
           </TableHead>
           <TableBody key={`${tableKey}-table-body-row`}>
-            {rowData.map((row: any, index: number) => (
-              <Fragment key={`${tableKey}-}-table-body-row-${index}`}>
-                <TableRow
-                  key={`${row}-${index}`}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            {rowData.length > 0 ? (
+              rowData.map((row: any, index: number) => (
+                <Fragment key={`${tableKey}-}-table-body-row-${index}`}>
+                  <TableRow
+                    key={`${row}-${index}`}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    {renderRowData(row)}
+                  </TableRow>
+                </Fragment>
+              ))
+            ) : (
+              <TableRow key={`${tableKey}-empty-row`}>
+                <TableCell
+                  key={`${tableKey}-empty-cell`}
+                  align="center"
+                  colSpan={rowHeaders.length}
                 >
-                  {renderRowData(row)}
-                </TableRow>
-              </Fragment>
-            ))}
+                  No data
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
