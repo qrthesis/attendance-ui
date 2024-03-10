@@ -14,10 +14,6 @@ const DashboardPage: React.FC = () => {
 
   console.log(user);
 
-  // useEffect(() => {
-  //   router.push("/dashboard/events");
-  // }, []);
-
   return (
     <div>
       <Header role={user?.role} />
