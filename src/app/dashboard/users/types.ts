@@ -4,15 +4,22 @@ export interface IAdminUser {
   password: string;
 }
 
+export interface IStudentUser extends IAdminUser {
+  course: string;
+}
+
 export interface ICreateAdminModalProps {
   isVisible: boolean;
-  updateVisibility: (modalType: "student" | "admin") => void;
+  updateVisibility: (user: "admin" | "student") => void;
   adminUser: IAdminUser;
   updateAdminDetails: (key: string, value: string) => void;
   addAdmin: () => void;
 }
 
-export interface ICreateUserModal {
-  admin: boolean;
-  student: boolean;
+export interface ICreateStudentModalProps {
+  isVisible: boolean;
+  updateVisibility: (user: "admin" | "student") => void;
+  studentUser: IStudentUser;
+  updateStudentDetails: (key: string, value: string) => void;
+  addStudent: () => void;
 }

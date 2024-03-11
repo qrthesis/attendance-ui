@@ -60,8 +60,6 @@ const CreateEventPage: React.FC<any> = () => {
 
   return (
     <>
-      <Header role={user?.role} />
-
       <Box
         sx={{
           display: "flex",

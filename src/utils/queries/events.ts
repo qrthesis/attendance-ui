@@ -26,6 +26,6 @@ export const getEvents = async () => {
     console.log("DATA ", res);
     return res.data.data;
   } catch (error) {
-    return null;
+    return [];
   }
 };

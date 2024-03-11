@@ -4,15 +4,17 @@ import Fade from "@mui/material/Fade";
 import { TransitionProps } from "@mui/material/transitions";
 
 import { createAdmin, getAdmin } from "@/utils/queries/admin";
-import { saveAdminUSer } from "@/utils/ducks/reducers/users";
+import { createStudent, getStudents } from "@/utils/queries/students";
+
+import { saveAdminUser, saveStudentUsers } from "@/utils/ducks/reducers/users";
 
 import { useAppDispatch } from "@/utils/ducks/store";
 import { useAppSelector } from "@/utils/ducks/store";
 
-import { IAdminUser, ICreateUserModal } from "./types";
+import { IAdminUser, IStudentUser } from "./types";
 
 const useUser = () => {
-  const { admin } = useAppSelector((state) => state.usersSlice);
+  const { admin, students } = useAppSelector((state) => state.usersSlice);
   const { user: loggedInUser } = useAppSelector((state) => state.authSlice);
 
   const [adminDetails, setAdminDetails] = useState<IAdminUser>({
@@ -21,7 +23,17 @@ const useUser = () => {
     password: "",
   });
 
-  const [modalVisibility, setModalVisibility] = useState<ICreateUserModal>({
+  const [studentDetails, setStudentDetails] = useState<IStudentUser>({
+    name: "",
+    email: "",
+    course: "",
+    password: "",
+  });
+
+  const [modalVisibility, setModalVisibility] = useState<{
+    admin: boolean;
+    student: boolean;
+  }>({
     admin: false,
     student: false,
   });
@@ -46,28 +58,45 @@ const useUser = () => {
     if (user === "admin") {
       return admin
         .filter((userAdmin: any) => userAdmin.email !== loggedInUser?.email)
-        .map((_admin: any) => [_admin.name, _admin.email]);
+        .map((_admin: any) => [_admin.email, _admin.name]);
+    } else {
+      return students.map((student: any) => [
+        student.email,
+        student.name,
+        student.course,
+      ]);
     }
   };
 
   const updateAdminDetails = (key: string, value: string) => {
     return setAdminDetails((prevState: any) => ({
-      ...adminDetails,
+      ...prevState,
       [key]: value,
     }));
   };
 
-  const updateModalVisibility = (modalType: "admin" | "student") => {
+  const updateStudentDetails = (key: string, value: string) => {
+    return setStudentDetails((prevState: any) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
+  const updateModalVisibility = (userType: "admin" | "student") => {
     return setModalVisibility((prevState: any) => ({
-      ...modalVisibility,
-      [modalType]: !prevState[modalType],
+      ...prevState,
+      [userType]: !prevState[userType],
     }));
   };
 
   const fetchUsers = async () => {
     const adminUsers = await getAdmin();
-    dispatch(saveAdminUSer(adminUsers));
+    dispatch(saveAdminUser(adminUsers));
     console.log(adminUsers);
+
+    const studentUsers = await getStudents();
+    dispatch(saveStudentUsers(studentUsers));
+    console.log(studentUsers);
   };
 
   const addAdmin = async () => {
@@ -91,7 +120,28 @@ const useUser = () => {
     }
   };
 
-  const addStudent = (student: any) => {};
+  const addStudent = async () => {
+    const result = await createStudent(
+      studentDetails.name,
+      studentDetails.email,
+      studentDetails.course,
+      studentDetails.password
+    );
+    console.log("result", result);
+    if (result?.status === 200) {
+      setStudentDetails({
+        name: "",
+        email: "",
+        course: "",
+        password: "",
+      });
+      updateModalVisibility("student");
+      handleOpenSnackbar(result?.message);
+      fetchUsers();
+    } else {
+      handleOpenSnackbar("Event creation failed!!");
+    }
+  };
 
   const handleOpenSnackbar = (message: string) => {
     return setSnackbarState((prevState) => ({
@@ -118,6 +168,7 @@ const useUser = () => {
       adminDetails,
       modalVisibility,
       snackbar: snackbarState,
+      studentDetails,
     },
     handlers: {
       updateAdminDetails,
@@ -126,6 +177,7 @@ const useUser = () => {
       addStudent,
       handleCloseSnackbar,
       formatTableData,
+      updateStudentDetails,
     },
   };
 };

@@ -7,22 +7,38 @@ interface IAdminUser {
   role: "admin" | "student";
 }
 
+interface IStudentUser {
+  _id: string;
+  name: string;
+  email: string;
+  course: string;
+  role: "admin" | "student";
+}
+
 interface IUsersState {
   admin: Array<IAdminUser>;
+  students: Array<IStudentUser>;
 }
 
 const initialState: IUsersState = {
   admin: [],
+  students: [],
 };
 
 const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    saveAdminUSer: (state, action) => {
+    saveAdminUser: (state, action) => {
       return {
         ...state,
         admin: action.payload,
+      };
+    },
+    saveStudentUsers: (state, action) => {
+      return {
+        ...state,
+        students: action.payload,
       };
     },
     resetState: (state) => ({
@@ -31,6 +47,7 @@ const usersSlice = createSlice({
   },
 });
 
-export const { saveAdminUSer, resetState } = usersSlice.actions;
+export const { saveAdminUser, saveStudentUsers, resetState } =
+  usersSlice.actions;
 
 export default usersSlice.reducer;

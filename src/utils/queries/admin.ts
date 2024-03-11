@@ -26,6 +26,6 @@ export const getAdmin = async () => {
     console.log("getAdmin", res);
     return res.data.admins;
   } catch (error) {
-    return null;
+    return [];
   }
 };

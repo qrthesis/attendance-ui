@@ -8,20 +8,17 @@ import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 
 import BasicTable from "../../components/BasicTable";
 
-import Header from "../Header";
 import useDashboard from "../useDashboard";
 import useUsers from "./useUsers";
 
 import CreateAdminModal from "./CreateAdminModal";
+import CreateStudentModal from "./CreateStudentModal";
 
-const RegisterUserPage: React.FC<any> = () => {
-  const { user } = useDashboard();
+const UsersPage: React.FC<any> = () => {
   const { state, handlers } = useUsers();
 
   return (
     <Container key={"users-container"}>
-      <Header role={user?.role} />
-
       <Button
         onClick={() => handlers.updateModalVisibility("admin")}
         variant="contained"
@@ -36,9 +33,31 @@ const RegisterUserPage: React.FC<any> = () => {
         addAdmin={handlers.addAdmin}
       />
       <BasicTable
+        gutterBottom
         tableKey="admin-user-table"
-        rowHeaders={["Name", "email"]}
+        rowHeaders={["Email", "Name"]}
         rowData={handlers.formatTableData("admin")}
+      />
+
+      <Button
+        onClick={() => handlers.updateModalVisibility("student")}
+        variant="contained"
+      >
+        Create student
+      </Button>
+      <BasicTable
+        gutterBottom
+        tableKey="student-user-table"
+        rowHeaders={["Email", "Name", "Course"]}
+        rowData={handlers.formatTableData("student")}
+      />
+
+      <CreateStudentModal
+        isVisible={state.modalVisibility.student}
+        updateVisibility={handlers.updateModalVisibility}
+        studentUser={state.studentDetails}
+        updateStudentDetails={handlers.updateStudentDetails}
+        addStudent={handlers.addStudent}
       />
 
       <Snackbar
@@ -58,4 +77,4 @@ const RegisterUserPage: React.FC<any> = () => {
   );
 };
 
-export default RegisterUserPage;
+export default UsersPage;
