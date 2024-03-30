@@ -20,14 +20,13 @@ const useUser = () => {
   const [adminDetails, setAdminDetails] = useState<IAdminUser>({
     name: "",
     email: "",
-    password: "",
   });
 
   const [studentDetails, setStudentDetails] = useState<IStudentUser>({
     name: "",
     email: "",
+    department: "CTECH",
     course: "",
-    password: "",
   });
 
   const [modalVisibility, setModalVisibility] = useState<{
@@ -63,7 +62,9 @@ const useUser = () => {
       return students.map((student: any) => [
         student.email,
         student.name,
+        student.department,
         student.course,
+        student.password ?  atob(student.password): "",
       ]);
     }
   };
@@ -103,14 +104,12 @@ const useUser = () => {
     const result = await createAdmin(
       adminDetails.name,
       adminDetails.email,
-      adminDetails.password
     );
     console.log("result", result);
     if (result?.status === 200) {
       setAdminDetails({
         name: "",
         email: "",
-        password: "",
       });
       updateModalVisibility("admin");
       handleOpenSnackbar(result?.message);
@@ -124,16 +123,16 @@ const useUser = () => {
     const result = await createStudent(
       studentDetails.name,
       studentDetails.email,
+      studentDetails.department,
       studentDetails.course,
-      studentDetails.password
     );
     console.log("result", result);
     if (result?.status === 200) {
       setStudentDetails({
         name: "",
         email: "",
+        department: "CTECH",
         course: "",
-        password: "",
       });
       updateModalVisibility("student");
       handleOpenSnackbar(result?.message);

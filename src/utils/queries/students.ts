@@ -3,15 +3,15 @@ import axiosInstance from "./axios.config";
 export const createStudent = async (
   name: string,
   email: string,
-  password: string,
+  department: string,
   course: string
 ) => {
   try {
     const res = await axiosInstance.post("/create-student", {
       name,
       email,
+      department,
       course,
-      password: btoa(password),
     });
     return {
       message: res.data.message,

@@ -3,13 +3,11 @@ import axiosInstance from "./axios.config";
 export const createAdmin = async (
   name: string,
   email: string,
-  password: string
 ) => {
   try {
     const res = await axiosInstance.post("/create-admin", {
       name,
       email,
-      password: btoa(password),
     });
     return {
       message: res.data.message,

@@ -6,14 +6,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
-import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
+import BasicSelect from "@/app/components/BasicSelect";
 
 import { ICreateStudentModalProps } from "./types";
 
@@ -24,8 +17,6 @@ const CreateStudentModal = ({
   updateStudentDetails,
   addStudent,
 }: ICreateStudentModalProps) => {
-  const [isPasswordVisible, setIsPasswordVisible] =
-    React.useState<boolean>(false);
 
   const createModalStyle = {
     position: "absolute" as "absolute",
@@ -71,42 +62,8 @@ const CreateStudentModal = ({
             onChange={(e) => updateStudentDetails("email", e.target.value)}
           />
 
-          <TextField
-            fullWidth
-            type="email"
-            id="email"
-            label="Student Course"
-            variant="outlined"
-            value={studentUser.course}
-            onChange={(e) => updateStudentDetails("course", e.target.value)}
-          />
-
-          <FormControl sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              fullWidth
-              type={isPasswordVisible ? "password" : "text"}
-              id="password"
-              label="Password"
-              value={studentUser.password}
-              onChange={(e) => updateStudentDetails("password", e.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() =>
-                      setIsPasswordVisible((prevState) => !prevState)
-                    }
-                    edge="end"
-                  >
-                    {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+          <BasicSelect dataType="dept" value={studentUser.department} handleFieldChange={updateStudentDetails} department={studentUser.department}/>
+          <BasicSelect dataType="course" value={studentUser.course} handleFieldChange={updateStudentDetails} department={studentUser.department}/>
 
           <Button onClick={addStudent} variant="contained">
             Create

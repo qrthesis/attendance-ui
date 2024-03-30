@@ -48,7 +48,7 @@ const UsersPage: React.FC<any> = () => {
         </Button>
         <BasicTable
           tableKey="student-user-table"
-          rowHeaders={["Email", "Name", "Course"]}
+          rowHeaders={["Email", "Name", "Department", "Course", "Default Password"]}
           rowData={handlers.formatTableData("student")}
         />
 

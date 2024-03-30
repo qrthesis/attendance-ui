@@ -1,4 +1,5 @@
-import * as React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -20,18 +21,17 @@ import { useRouter } from "next/navigation";
 import styles from "./styles.module.css";
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  role: "admin" | "student" | undefined;
   window?: () => Window;
 }
 
 const drawerWidth = 240;
 const navItems = ["User", "Events", "Logout"];
 
-const Header: React.FC<Props> = ({ role, window }) => {
+const Header: React.FC<Props> = ({ window }) => {
+
+  const [user, setUser] = useState<any>();
+
+
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -61,7 +61,7 @@ const Header: React.FC<Props> = ({ role, window }) => {
     window !== undefined ? () => window().document.body : undefined;
 
   const getNavBarItems = () => {
-    if (role === "admin") {
+    if (user?.role === "admin") {
       return ["Users", "Events", "Logout"];
     }
 
@@ -78,6 +78,11 @@ const Header: React.FC<Props> = ({ role, window }) => {
       router.push("/logout");
     }
   };
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user") ?? "{}";
+    setUser(JSON.parse(savedUser));
+  }, [])
 
   return (
     <Box sx={{ display: "flex" }}>

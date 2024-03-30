@@ -1,10 +1,10 @@
 export interface IAdminUser {
   name: string;
   email: string;
-  password: string;
 }
 
 export interface IStudentUser extends IAdminUser {
+  department: string;
   course: string;
 }
 
