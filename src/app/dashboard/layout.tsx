@@ -2,10 +2,9 @@
 import React from "react";
 import Header from "./Header";
 
-import useDashboard from "./useDashboard";
-
 const DashboardLayout = ({ children }: any) => {
-  const { user } = useDashboard();
+  const user = JSON.parse(localStorage.getItem("user")!);
+
   return (
     <>
       <Header role={user?.role} />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAppDispatch } from "@/utils/ducks/store";
 
 import { createEvent, getEvents } from "@/utils/queries/events";
+import { resetPassword } from "@/utils/queries/user";
 import { saveEvents } from "@/utils/ducks/reducers/events";
 import { useAppSelector } from "@/utils/ducks/store";
 
@@ -12,11 +13,14 @@ import { TransitionProps } from "@mui/material/transitions";
 
 const useEvent = () => {
   const dispatch = useAppDispatch();
+  const user: any = JSON.parse(localStorage.getItem("user")!);
 
   const { events } = useAppSelector((state) => state.eventsSlice);
 
   const [isCreateEventModalVisible, setIsCreateModalVisible] =
     useState<boolean>(false);
+  const [isResetPasswordModalVisible, setIsResetPasswordModalVisible] =
+    useState<boolean>(user?.loginCount === 0);
   const [createEventFields, setCreateEventFields] = useState({
     name: "",
     description: "",
@@ -87,6 +91,21 @@ const useEvent = () => {
     console.log(events);
   };
 
+  const handleResetPassword = async (newPassword: string, oldPassword: string) => {
+    const result = await resetPassword(user.email, oldPassword, newPassword);
+
+    if (result?.status === 200) {
+      const updatedUser = result?.data?.user;
+      delete updatedUser.password;
+
+      setIsResetPasswordModalVisible((prevState) => !prevState);
+      handleOpenSnackbar(result?.data?.message);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    } else {
+      handleOpenSnackbar("Reset password failed!!");
+    }
+  }
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchEvents();
@@ -94,9 +113,15 @@ const useEvent = () => {
 
   return {
     modal: {
-      isVisible: isCreateEventModalVisible,
-      updateVisibility: () =>
-        setIsCreateModalVisible((prevState) => !prevState),
+      create: {
+        isVisible: isCreateEventModalVisible,
+        updateVisibility: () =>
+          setIsCreateModalVisible((prevState) => !prevState),
+      },
+      reset: {
+        isVisible: isResetPasswordModalVisible,
+        updateVisibility: () => setIsResetPasswordModalVisible((prevState) => !prevState),
+      },
     },
     fields: {
       value: createEventFields,
@@ -114,6 +139,7 @@ const useEvent = () => {
         ...events,
       },
     },
+    handleResetPassword
   };
 };
 

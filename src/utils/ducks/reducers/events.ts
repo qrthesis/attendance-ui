@@ -1,4 +1,5 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 
 interface IEventsState {
   events: {
@@ -28,10 +29,13 @@ const eventsSlice = createSlice({
         completedEvents: any = [];
 
       fetchedEvents.forEach((event: any) => {
-        const eventDate = new Date(event.date);
-        if (eventDate > new Date()) {
+        // = new Date(event.date);
+
+        const eventDate = dayjs.unix(event.date).format("MM/DD/YYYY");
+
+        if (dayjs().isBefore(eventDate, "date")) {
           upcomingEvents.push(event);
-        } else if (eventDate < new Date()) {
+        } else if (dayjs().isAfter(eventDate, "date")) {
           completedEvents.push(event);
         } else {
           inProgressEvents.push(event);

@@ -43,6 +43,7 @@ const useLogin = () => {
       });
     } else {
       handleResetFields();
+      localStorage.setItem("user", JSON.stringify(user));
       dispatch(saveUser(user));
       router.replace("/dashboard/events");
     }

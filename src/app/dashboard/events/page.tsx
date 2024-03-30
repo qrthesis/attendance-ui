@@ -1,75 +1,56 @@
 "use client";
-
 import React from "react";
+import dayjs from "dayjs";
 
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import Modal from "@mui/material/Modal";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import Header from "../Header";
 import BasicTable from "../../components/BasicTable";
 
-import useDashboard from "../useDashboard";
 import useEvent from "./useEvent";
-import dayjs from "dayjs";
+
+import CreateEventModal from "./CreateEventModal";
+import ResetPasswordModal from "./ResetPasswordModal";
 
 const CreateEventPage: React.FC<any> = () => {
-  const { user } = useDashboard();
 
-  const { events, modal, fields, snackbar, handleCreateEvent } = useEvent();
+  const { events, modal, fields, snackbar, handleCreateEvent, handleResetPassword } = useEvent();
 
   const { completed, upcoming, inProgress } = events.data;
 
   console.log("EVENTS AT PAGE", events.data);
-
-  const createModalStyle = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
   const formatTableData = (event: "upcoming" | "completed" | "inProgress") => {
     return events.data[event].map((event: any) => {
       return [
         event.name,
         event.description,
-        dayjs(event.date).format("MM/DD/YYYY"),
+        dayjs.unix(event.date).format("MM/DD/YYYY"),
       ];
     });
   };
 
   return (
     <>
-      <Box
+      <Stack
         sx={{
           display: "flex",
           flexWrap: "wrap",
           padding: "20px",
         }}
+        spacing={3}
       >
         <Accordion
           sx={{
             width: "100%",
+            border: "1px solid #000",
           }}
         >
           <AccordionSummary
@@ -92,6 +73,7 @@ const CreateEventPage: React.FC<any> = () => {
           defaultExpanded
           sx={{
             width: "100%",
+            border: "1px solid #000",
           }}
         >
           <AccordionSummary
@@ -113,6 +95,7 @@ const CreateEventPage: React.FC<any> = () => {
         <Accordion
           sx={{
             width: "100%",
+            border: "1px solid #000",
           }}
         >
           <AccordionSummary
@@ -130,77 +113,15 @@ const CreateEventPage: React.FC<any> = () => {
             />
           </AccordionDetails>
         </Accordion>
-      </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-        }}
-      >
-        <Fab
-          color="primary"
-          aria-label="add"
-          variant="extended"
-          sx={{
-            position: "absolute",
-            bottom: 20,
-            right: 16,
-          }}
-          onClick={modal.updateVisibility}
-        >
-          <AddIcon />
+        <Button onClick={modal.create.updateVisibility} variant="contained">
           Add new event
-        </Fab>
-      </Box>
-      <Modal
-        open={modal.isVisible}
-        onClose={modal.updateVisibility}
-        aria-labelledby="create-event-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={createModalStyle}>
-          <Stack spacing={3} direction="column">
-            <Typography
-              id="create-event-modal-title"
-              variant="h6"
-              component="h2"
-            >
-              Create new school event
-            </Typography>
-            <TextField
-              fullWidth
-              type="text"
-              id="event-name"
-              label="Event Name"
-              variant="outlined"
-              value={fields.value.name}
-              onChange={(e) => fields.handler("name", e.target.value)}
-            />
-            <TextField
-              fullWidth
-              type="text"
-              id="description"
-              label="Event Description"
-              variant="outlined"
-              value={fields.value.description}
-              onChange={(e) => fields.handler("description", e.target.value)}
-            />
+        </Button>
+      </Stack>
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Event Date"
-                value={dayjs(fields.value.date)}
-                onChange={(newValue) => fields.handler("date", newValue)}
-              />
-            </LocalizationProvider>
+      <CreateEventModal fields={fields} handleCreateEvent={handleCreateEvent} isVisible={modal.create.isVisible} updateVisibility={modal.create.updateVisibility} />
+      <ResetPasswordModal isVisible={modal.reset.isVisible} updateVisibility={modal.reset.updateVisibility} handleResetPassword={handleResetPassword} />
 
-            <Button onClick={handleCreateEvent} variant="contained">
-              Create
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
       <Snackbar
         color="primary"
         anchorOrigin={{

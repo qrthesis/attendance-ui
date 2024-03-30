@@ -74,6 +74,7 @@ const Header: React.FC<Props> = ({ role, window }) => {
     } else if (navItem === "Events") {
       router.push("/dashboard/events");
     } else {
+      localStorage.removeItem("user");
       router.push("/logout");
     }
   };
