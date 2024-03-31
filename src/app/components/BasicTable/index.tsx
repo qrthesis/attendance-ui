@@ -11,7 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 
 import { ITableProps } from "./types";
 
-const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
+const BasicTable = ({ tableKey, rowHeaders, rowData, user }: ITableProps) => {
   const renderRowHeaders = () => {
     return rowHeaders.map((header: string, index: number) => {
       return (
@@ -36,6 +36,48 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
     });
   };
 
+  const renderActions = (row: any) => {
+    if (user?.role !== "admin" && tableKey === "inprogress-events-table") {
+      return (
+        <Fragment>
+          <TableCell key={`${tableKey}-actions-clock-in`} align="center" sx={{
+            cursor: 'pointer',
+            ":hover": {
+              color: 'blue',
+              fontWeight: 'bold',
+              backgroundColor: 'lightgray'
+            }
+          }}>
+            Clock in
+          </TableCell>
+          <TableCell key={`${tableKey}-actions-clock-out`} align="center" sx={{
+            cursor: 'pointer',
+            ":hover": {
+              color: 'blue',
+              fontWeight: 'bold',
+              backgroundColor: 'lightgray'
+            }
+          }}>
+            Clock out
+          </TableCell>
+        </Fragment>
+      );
+    }
+
+    return <Fragment>
+      <TableCell key={`${tableKey}-actions-view-attendance`} align="center" sx={{
+        cursor: 'pointer',
+        ":hover": {
+          color: 'blue',
+          fontWeight: 'bold',
+          backgroundColor: 'lightgray'
+        }
+      }}>
+        View Attendance
+      </TableCell>
+    </Fragment>
+  }
+
   return (
     <Fragment>
       <TableContainer component={Card} key={`table-container-${tableKey}`}>
@@ -58,6 +100,7 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     {renderRowData(row)}
+                    {renderActions(row)}
                   </TableRow>
                 </Fragment>
               ))
@@ -82,8 +125,8 @@ const BasicTable = ({ tableKey, rowHeaders, rowData }: ITableProps) => {
         count={5}
         rowsPerPage={5}
         page={0}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
+        onPageChange={() => { }}
+        onRowsPerPageChange={() => { }}
       />
     </Fragment>
   );

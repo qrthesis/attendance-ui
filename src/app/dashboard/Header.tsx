@@ -15,8 +15,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-import Link from "@mui/material/Link";
-
 import { useRouter } from "next/navigation";
 import styles from "./styles.module.css";
 
@@ -30,7 +28,6 @@ const navItems = ["User", "Events", "Logout"];
 const Header: React.FC<Props> = ({ window }) => {
 
   const [user, setUser] = useState<any>();
-
 
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = React.useState(false);

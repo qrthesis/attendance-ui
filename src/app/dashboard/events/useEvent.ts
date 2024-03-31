@@ -13,7 +13,7 @@ import { TransitionProps } from "@mui/material/transitions";
 
 const useEvent = () => {
   const dispatch = useAppDispatch();
-  const user: any = JSON.parse(localStorage.getItem("user")!);
+  const [user, setUser] = useState<any>();
 
   const { events } = useAppSelector((state) => state.eventsSlice);
 
@@ -21,6 +21,9 @@ const useEvent = () => {
     useState<boolean>(false);
   const [isResetPasswordModalVisible, setIsResetPasswordModalVisible] =
     useState<boolean>(user?.loginCount === 0);
+    const [isTimeInModalVisible, setIsTimeInModalVisible] =
+    useState<boolean>(false);
+
   const [createEventFields, setCreateEventFields] = useState({
     name: "",
     description: "",
@@ -107,9 +110,12 @@ const useEvent = () => {
   }
 
   useEffect(() => {
+    const savedUser: any = JSON.parse(localStorage.getItem("user")!);
+    setUser(savedUser)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchEvents();
   }, []);
+
 
   return {
     modal: {
@@ -122,6 +128,10 @@ const useEvent = () => {
         isVisible: isResetPasswordModalVisible,
         updateVisibility: () => setIsResetPasswordModalVisible((prevState) => !prevState),
       },
+      timeIn: {
+        isVisible: isTimeInModalVisible,
+        updateVisibility: () => setIsTimeInModalVisible(prevState => !prevState),
+      }
     },
     fields: {
       value: createEventFields,
@@ -139,7 +149,8 @@ const useEvent = () => {
         ...events,
       },
     },
-    handleResetPassword
+    handleResetPassword,
+    user
   };
 };
 

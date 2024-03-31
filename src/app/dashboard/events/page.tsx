@@ -18,10 +18,11 @@ import useEvent from "./useEvent";
 
 import CreateEventModal from "./CreateEventModal";
 import ResetPasswordModal from "./ResetPasswordModal";
+import TimeInModal from "./TimeInModal";
 
 const CreateEventPage: React.FC<any> = () => {
 
-  const { events, modal, fields, snackbar, handleCreateEvent, handleResetPassword } = useEvent();
+  const { events, modal, fields, snackbar, handleCreateEvent, handleResetPassword, user } = useEvent();
 
   const { completed, upcoming, inProgress } = events.data;
 
@@ -65,6 +66,7 @@ const CreateEventPage: React.FC<any> = () => {
               tableKey="upcoming-events-table"
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("upcoming")}
+              user={user}
             />
           </AccordionDetails>
         </Accordion>
@@ -88,6 +90,7 @@ const CreateEventPage: React.FC<any> = () => {
               tableKey="inprogress-events-table"
               rowHeaders={["Event Name", "Description", "Date"]}
               rowData={formatTableData("inProgress")}
+              user={user}
             />
           </AccordionDetails>
         </Accordion>
@@ -110,17 +113,19 @@ const CreateEventPage: React.FC<any> = () => {
               tableKey="completed-events-table"
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("completed")}
+              user={user}
             />
           </AccordionDetails>
         </Accordion>
 
-        <Button onClick={modal.create.updateVisibility} variant="contained">
+        {user?.role === 'admin' && <Button onClick={modal.create.updateVisibility} variant="contained">
           Add new event
-        </Button>
+        </Button>}
       </Stack>
 
       <CreateEventModal fields={fields} handleCreateEvent={handleCreateEvent} isVisible={modal.create.isVisible} updateVisibility={modal.create.updateVisibility} />
       <ResetPasswordModal isVisible={modal.reset.isVisible} updateVisibility={modal.reset.updateVisibility} handleResetPassword={handleResetPassword} />
+      <TimeInModal isVisible={modal.timeIn.isVisible} updateVisibility={modal.timeIn.updateVisibility} isRenderable={user?.role !== 'admin'} />
 
       <Snackbar
         color="primary"
