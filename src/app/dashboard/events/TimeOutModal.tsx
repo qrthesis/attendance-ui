@@ -18,11 +18,11 @@ const TimeOutModal
         updateVisibility,
         isRenderable
     }) => {
+        const { Canvas } = useQRCode();
+
         if (!isRenderable) {
             return null;
         }
-
-        const { Canvas } = useQRCode();
 
         const timeOutModalStyle = {
             position: "absolute" as "absolute",

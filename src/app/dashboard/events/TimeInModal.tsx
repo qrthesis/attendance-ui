@@ -18,11 +18,12 @@ const TimeInModal
         updateVisibility,
         isRenderable
     }) => {
+        const { Canvas } = useQRCode();
+
         if (!isRenderable) {
             return null;
         }
 
-        const { Canvas } = useQRCode();
 
         const timeInModalStyle = {
             position: "absolute" as "absolute",
