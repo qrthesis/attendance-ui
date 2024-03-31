@@ -16,6 +16,8 @@ import { IAdminUser, IStudentUser } from "./types";
 const useUser = () => {
   const { admin, students } = useAppSelector((state) => state.usersSlice);
   const { user: loggedInUser } = useAppSelector((state) => state.authSlice);
+  
+  const [savedUser, setSavedUser] = useState<any>();
 
   const [adminDetails, setAdminDetails] = useState<IAdminUser>({
     name: "",
@@ -159,6 +161,8 @@ const useUser = () => {
   };
 
   useEffect(() => {
+    const loggedInUser: any = JSON.parse(localStorage.getItem("user")!);
+    setSavedUser(loggedInUser)
     fetchUsers();
   }, []);
 
@@ -168,6 +172,7 @@ const useUser = () => {
       modalVisibility,
       snackbar: snackbarState,
       studentDetails,
+      savedUser,
     },
     handlers: {
       updateAdminDetails,

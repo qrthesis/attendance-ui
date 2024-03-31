@@ -38,6 +38,7 @@ const UsersPage: React.FC<any> = () => {
           tableKey="admin-user-table"
           rowHeaders={["Email", "Name"]}
           rowData={handlers.formatTableData("admin")}
+          user={state.savedUser}
         />
 
         <Button
@@ -50,6 +51,7 @@ const UsersPage: React.FC<any> = () => {
           tableKey="student-user-table"
           rowHeaders={["Email", "Name", "Department", "Course", "Default Password"]}
           rowData={handlers.formatTableData("student")}
+          user={state.savedUser}
         />
 
         <CreateStudentModal
