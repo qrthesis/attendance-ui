@@ -23,6 +23,9 @@ const useEvent = () => {
     useState<boolean>(user?.loginCount === 0);
     const [isTimeInModalVisible, setIsTimeInModalVisible] =
     useState<boolean>(false);
+    const [isTimeOutModalVisible, setIsTimeOutModalVisible] =
+    useState<boolean>(false);
+
 
   const [createEventFields, setCreateEventFields] = useState({
     name: "",
@@ -131,6 +134,10 @@ const useEvent = () => {
       timeIn: {
         isVisible: isTimeInModalVisible,
         updateVisibility: () => setIsTimeInModalVisible(prevState => !prevState),
+      },
+      timeOut: {
+        isVisible: isTimeOutModalVisible,
+        updateVisibility: () => setIsTimeOutModalVisible(prevState => !prevState),
       }
     },
     fields: {

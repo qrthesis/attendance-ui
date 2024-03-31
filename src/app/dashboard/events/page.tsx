@@ -19,6 +19,7 @@ import useEvent from "./useEvent";
 import CreateEventModal from "./CreateEventModal";
 import ResetPasswordModal from "./ResetPasswordModal";
 import TimeInModal from "./TimeInModal";
+import TimeOutModal from "./TimeOutModal";
 
 const CreateEventPage: React.FC<any> = () => {
 
@@ -91,6 +92,10 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Event Name", "Description", "Date"]}
               rowData={formatTableData("inProgress")}
               user={user}
+              actions={{
+                clockIn: modal.timeIn.updateVisibility,
+                clockOut: modal.timeOut.updateVisibility
+              }}
             />
           </AccordionDetails>
         </Accordion>
@@ -126,6 +131,7 @@ const CreateEventPage: React.FC<any> = () => {
       <CreateEventModal fields={fields} handleCreateEvent={handleCreateEvent} isVisible={modal.create.isVisible} updateVisibility={modal.create.updateVisibility} />
       <ResetPasswordModal isVisible={modal.reset.isVisible} updateVisibility={modal.reset.updateVisibility} handleResetPassword={handleResetPassword} />
       <TimeInModal isVisible={modal.timeIn.isVisible} updateVisibility={modal.timeIn.updateVisibility} isRenderable={user?.role !== 'admin'} />
+      <TimeOutModal isVisible={modal.timeOut.isVisible} updateVisibility={modal.timeOut.updateVisibility} isRenderable={user?.role !== 'admin'} />
 
       <Snackbar
         color="primary"

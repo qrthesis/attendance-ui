@@ -11,7 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 
 import { ITableProps } from "./types";
 
-const BasicTable = ({ tableKey, rowHeaders, rowData, user }: ITableProps) => {
+const BasicTable = ({ tableKey, rowHeaders, rowData, user, actions }: ITableProps) => {
   const renderRowHeaders = () => {
     return rowHeaders.map((header: string, index: number) => {
       return (
@@ -47,7 +47,9 @@ const BasicTable = ({ tableKey, rowHeaders, rowData, user }: ITableProps) => {
               fontWeight: 'bold',
               backgroundColor: 'lightgray'
             }
-          }}>
+          }}
+            onClick={() => actions?.clockIn?.()}
+          >
             Clock in
           </TableCell>
           <TableCell key={`${tableKey}-actions-clock-out`} align="center" sx={{
@@ -57,7 +59,9 @@ const BasicTable = ({ tableKey, rowHeaders, rowData, user }: ITableProps) => {
               fontWeight: 'bold',
               backgroundColor: 'lightgray'
             }
-          }}>
+          }}
+            onClick={() => actions?.clockOut?.()}
+          >
             Clock out
           </TableCell>
         </Fragment>

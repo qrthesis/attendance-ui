@@ -6,14 +6,14 @@ import Stack from "@mui/material/Stack";
 import { useQRCode } from 'next-qrcode';
 import dayjs from 'dayjs';
 
-interface ITimeInModalProps {
+interface ITimeOutModalProps {
     isVisible: boolean
     updateVisibility: () => void
     isRenderable: boolean
 }
 
-const TimeInModal
-    : React.FC<ITimeInModalProps> = ({
+const TimeOutModal
+    : React.FC<ITimeOutModalProps> = ({
         isVisible,
         updateVisibility,
         isRenderable
@@ -24,7 +24,7 @@ const TimeInModal
 
         const { Canvas } = useQRCode();
 
-        const timeInModalStyle = {
+        const timeOutModalStyle = {
             position: "absolute" as "absolute",
             top: "50%",
             left: "50%",
@@ -43,7 +43,7 @@ const TimeInModal
                 aria-labelledby="time-in-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={timeInModalStyle}>
+                <Box sx={timeOutModalStyle}>
                     <Stack spacing={3} direction="column" sx={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -55,7 +55,7 @@ const TimeInModal
                             component="h2"
                             textAlign='center'
                         >
-                            Are you sure to clock in for the event?
+                            Are you sure to clock out for the event?
                         </Typography>
 
                         <Canvas
@@ -77,4 +77,4 @@ const TimeInModal
         )
     }
 
-export default TimeInModal
+export default TimeOutModal
