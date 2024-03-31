@@ -6,15 +6,6 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
-import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-
 import { ICreateAdminModalProps } from "./types";
 
 const CreateAdminModal = ({
@@ -24,9 +15,6 @@ const CreateAdminModal = ({
   updateAdminDetails,
   addAdmin,
 }: ICreateAdminModalProps) => {
-  const [isPasswordVisible, setIsPasswordVisible] =
-    React.useState<boolean>(false);
-
   const createModalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -70,33 +58,6 @@ const CreateAdminModal = ({
             value={adminUser.email}
             onChange={(e) => updateAdminDetails("email", e.target.value)}
           />
-
-          <FormControl sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              fullWidth
-              type={isPasswordVisible ? "password" : "text"}
-              id="password"
-              label="Password"
-              value={adminUser.password}
-              onChange={(e) => updateAdminDetails("password", e.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() =>
-                      setIsPasswordVisible((prevState) => !prevState)
-                    }
-                    edge="end"
-                  >
-                    {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
 
           <Button onClick={addAdmin} variant="contained">
             Create
