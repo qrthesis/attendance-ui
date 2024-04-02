@@ -1,80 +1,85 @@
-import React from 'react'
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Stack from "@mui/material/Stack";
-import { useQRCode } from 'next-qrcode';
-import dayjs from 'dayjs';
+import { useQRCode } from "next-qrcode";
+import dayjs from "dayjs";
 
 interface ITimeOutModalProps {
-    isVisible: boolean
-    updateVisibility: () => void
-    isRenderable: boolean
+  isVisible: boolean;
+  updateVisibility: () => void;
+  isRenderable: boolean;
+  user: string;
 }
 
-const TimeOutModal
-    : React.FC<ITimeOutModalProps> = ({
-        isVisible,
-        updateVisibility,
-        isRenderable
-    }) => {
-        const { Canvas } = useQRCode();
+const TimeOutModal: React.FC<ITimeOutModalProps> = ({
+  isVisible,
+  updateVisibility,
+  isRenderable,
+  user,
+}) => {
+  const { Canvas } = useQRCode();
 
-        if (!isRenderable) {
-            return null;
-        }
+  if (!isRenderable) {
+    return null;
+  }
 
-        const timeOutModalStyle = {
-            position: "absolute" as "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "80%",
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            boxShadow: 24,
-            p: 4,
-        };
+  const timeOutModalStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "80%",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
-        return (
-            <Modal
-                open={isVisible}
-                onClose={updateVisibility}
-                aria-labelledby="time-in-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={timeOutModalStyle}>
-                    <Stack spacing={3} direction="column" sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <Typography
-                            id="time-in-modal-title"
-                            variant="h6"
-                            component="h2"
-                            textAlign='center'
-                        >
-                            Are you sure to clock out for the event?
-                        </Typography>
+  return (
+    <Modal
+      open={isVisible}
+      onClose={updateVisibility}
+      aria-labelledby="time-in-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={timeOutModalStyle}>
+        <Stack
+          spacing={3}
+          direction="column"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            id="time-in-modal-title"
+            variant="h6"
+            component="h2"
+            textAlign="center"
+          >
+            Are you sure to clock out for the event?
+          </Typography>
 
-                        <Canvas
-                            text={dayjs().unix().toString()}
-                            options={{
-                                errorCorrectionLevel: 'M',
-                                margin: 3,
-                                scale: 4,
-                                width: 200,
-                                color: {
-                                    dark: '#010599FF',
-                                    light: '#FFBF60FF',
-                                },
-                            }}
-                        />
-                    </Stack>
-                </Box>
-            </Modal>
-        )
-    }
+          <Canvas
+            text={JSON.stringify({ user, time: dayjs().unix() })}
+            options={{
+              errorCorrectionLevel: "M",
+              margin: 3,
+              scale: 4,
+              width: 200,
+              color: {
+                dark: "#010599FF",
+                light: "#FFBF60FF",
+              },
+            }}
+          />
+        </Stack>
+      </Box>
+    </Modal>
+  );
+};
 
-export default TimeOutModal
+export default TimeOutModal;

@@ -10,12 +10,14 @@ interface ITimeInModalProps {
   isVisible: boolean;
   updateVisibility: () => void;
   isRenderable: boolean;
+  user: string;
 }
 
 const TimeInModal: React.FC<ITimeInModalProps> = ({
   isVisible,
   updateVisibility,
   isRenderable,
+  user,
 }) => {
   const { Canvas } = useQRCode();
 
@@ -62,7 +64,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
           </Typography>
 
           <Canvas
-            text={dayjs().unix().toString()}
+            text={JSON.stringify({ user, time: dayjs().unix() })}
             options={{
               errorCorrectionLevel: "M",
               margin: 3,

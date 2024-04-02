@@ -34,8 +34,6 @@ const CreateEventPage: React.FC<any> = () => {
 
   const { completed, upcoming, inProgress } = events.data;
 
-  console.log("EVENTS AT PAGE", events.data);
-
   const formatTableData = (event: "upcoming" | "completed" | "inProgress") => {
     return events.data[event].map((event: any) => {
       return [
@@ -152,11 +150,13 @@ const CreateEventPage: React.FC<any> = () => {
         isVisible={modal.timeIn.isVisible}
         updateVisibility={modal.timeIn.updateVisibility}
         isRenderable={user?.role !== "admin"}
+        user={user?.email}
       />
       <TimeOutModal
         isVisible={modal.timeOut.isVisible}
         updateVisibility={modal.timeOut.updateVisibility}
         isRenderable={user?.role !== "admin"}
+        user={user?.email}
       />
 
       <Snackbar
