@@ -42,7 +42,7 @@ const ResetPasswordModal: React.FC<IResetPasswordModalProps> = ({
   return (
     <Modal
       open={isVisible}
-      onClose={updateVisibility}
+      onClose={() => {}}
       aria-labelledby="create-event-modal-title"
       aria-describedby="modal-modal-description"
     >
