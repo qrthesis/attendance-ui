@@ -22,8 +22,15 @@ import TimeInModal from "./TimeInModal";
 import TimeOutModal from "./TimeOutModal";
 
 const CreateEventPage: React.FC<any> = () => {
-
-  const { events, modal, fields, snackbar, handleCreateEvent, handleResetPassword, user } = useEvent();
+  const {
+    events,
+    modal,
+    fields,
+    snackbar,
+    handleCreateEvent,
+    handleResetPassword,
+    user,
+  } = useEvent();
 
   const { completed, upcoming, inProgress } = events.data;
 
@@ -94,7 +101,7 @@ const CreateEventPage: React.FC<any> = () => {
               user={user}
               actions={{
                 clockIn: modal.timeIn.updateVisibility,
-                clockOut: modal.timeOut.updateVisibility
+                clockOut: modal.timeOut.updateVisibility,
               }}
             />
           </AccordionDetails>
@@ -123,15 +130,34 @@ const CreateEventPage: React.FC<any> = () => {
           </AccordionDetails>
         </Accordion>
 
-        {user?.role === 'admin' && <Button onClick={modal.create.updateVisibility} variant="contained">
-          Add new event
-        </Button>}
+        {user?.role === "admin" && (
+          <Button onClick={modal.create.updateVisibility} variant="contained">
+            Add new event
+          </Button>
+        )}
       </Stack>
 
-      <CreateEventModal fields={fields} handleCreateEvent={handleCreateEvent} isVisible={modal.create.isVisible} updateVisibility={modal.create.updateVisibility} />
-      <ResetPasswordModal isVisible={modal.reset.isVisible} updateVisibility={modal.reset.updateVisibility} handleResetPassword={handleResetPassword} />
-      <TimeInModal isVisible={modal.timeIn.isVisible} updateVisibility={modal.timeIn.updateVisibility} isRenderable={user?.role !== 'admin'} />
-      <TimeOutModal isVisible={modal.timeOut.isVisible} updateVisibility={modal.timeOut.updateVisibility} isRenderable={user?.role !== 'admin'} />
+      <CreateEventModal
+        fields={fields}
+        handleCreateEvent={handleCreateEvent}
+        isVisible={modal.create.isVisible}
+        updateVisibility={modal.create.updateVisibility}
+      />
+      <ResetPasswordModal
+        isVisible={modal.reset.isVisible}
+        updateVisibility={modal.reset.updateVisibility}
+        handleResetPassword={handleResetPassword}
+      />
+      <TimeInModal
+        isVisible={modal.timeIn.isVisible}
+        updateVisibility={modal.timeIn.updateVisibility}
+        isRenderable={user?.role !== "admin"}
+      />
+      <TimeOutModal
+        isVisible={modal.timeOut.isVisible}
+        updateVisibility={modal.timeOut.updateVisibility}
+        isRenderable={user?.role !== "admin"}
+      />
 
       <Snackbar
         color="primary"

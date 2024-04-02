@@ -20,12 +20,11 @@ const useEvent = () => {
   const [isCreateEventModalVisible, setIsCreateModalVisible] =
     useState<boolean>(false);
   const [isResetPasswordModalVisible, setIsResetPasswordModalVisible] =
-    useState<boolean>(user?.loginCount === 0);
-    const [isTimeInModalVisible, setIsTimeInModalVisible] =
     useState<boolean>(false);
-    const [isTimeOutModalVisible, setIsTimeOutModalVisible] =
+  const [isTimeInModalVisible, setIsTimeInModalVisible] =
     useState<boolean>(false);
-
+  const [isTimeOutModalVisible, setIsTimeOutModalVisible] =
+    useState<boolean>(false);
 
   const [createEventFields, setCreateEventFields] = useState({
     name: "",
@@ -97,7 +96,10 @@ const useEvent = () => {
     console.log(events);
   };
 
-  const handleResetPassword = async (newPassword: string, oldPassword: string) => {
+  const handleResetPassword = async (
+    newPassword: string,
+    oldPassword: string
+  ) => {
     const result = await resetPassword(user.email, oldPassword, newPassword);
 
     if (result?.status === 200) {
@@ -110,15 +112,18 @@ const useEvent = () => {
     } else {
       handleOpenSnackbar("Reset password failed!!");
     }
-  }
+  };
 
   useEffect(() => {
     const savedUser: any = JSON.parse(localStorage.getItem("user")!);
-    setUser(savedUser)
+    setUser(savedUser);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchEvents();
   }, []);
 
+  useEffect(() => {
+    setIsResetPasswordModalVisible(user?.loginCount === 0);
+  }, [user?.loginCount]);
 
   return {
     modal: {
@@ -129,16 +134,19 @@ const useEvent = () => {
       },
       reset: {
         isVisible: isResetPasswordModalVisible,
-        updateVisibility: () => setIsResetPasswordModalVisible((prevState) => !prevState),
+        updateVisibility: () =>
+          setIsResetPasswordModalVisible((prevState) => !prevState),
       },
       timeIn: {
         isVisible: isTimeInModalVisible,
-        updateVisibility: () => setIsTimeInModalVisible(prevState => !prevState),
+        updateVisibility: () =>
+          setIsTimeInModalVisible((prevState) => !prevState),
       },
       timeOut: {
         isVisible: isTimeOutModalVisible,
-        updateVisibility: () => setIsTimeOutModalVisible(prevState => !prevState),
-      }
+        updateVisibility: () =>
+          setIsTimeOutModalVisible((prevState) => !prevState),
+      },
     },
     fields: {
       value: createEventFields,
@@ -157,7 +165,7 @@ const useEvent = () => {
       },
     },
     handleResetPassword,
-    user
+    user,
   };
 };
 

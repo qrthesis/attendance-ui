@@ -1,13 +1,14 @@
-'use client'
+"use client";
 
-import { useAppSelector } from "@/utils/ducks/store"
-import React, { useState } from "react"
+import { useAppSelector } from "@/utils/ducks/store";
+import React, { useState, useEffect } from "react";
 
 const useDashboard = () => {
-    const { user } = useAppSelector(state => state.authSlice)
-    return {
-        user
-    }
-}
+  const { user } = useAppSelector((state) => state.authSlice);
 
-export default useDashboard
+  return {
+    user,
+  };
+};
+
+export default useDashboard;
