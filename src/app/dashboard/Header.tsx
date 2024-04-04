@@ -22,12 +22,11 @@ interface Props {
   window?: () => Window;
 }
 
-const drawerWidth = 240;
-const navItems = ["User", "Events", "Logout"];
-
 const Header: React.FC<Props> = ({ window }) => {
-
   const [user, setUser] = useState<any>();
+
+  const drawerWidth = 240;
+  const navItems = ["User", "Events", "Logout"];
 
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -39,13 +38,16 @@ const Header: React.FC<Props> = ({ window }) => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        Hi, {user?.name}
       </Typography>
       <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemButton
+              sx={{ textAlign: "center" }}
+              onClick={() => handleNavClick(item)}
+            >
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
@@ -79,7 +81,7 @@ const Header: React.FC<Props> = ({ window }) => {
   useEffect(() => {
     const savedUser = localStorage.getItem("user") ?? "{}";
     setUser(JSON.parse(savedUser));
-  }, [])
+  }, []);
 
   return (
     <Box sx={{ display: "flex" }}>
