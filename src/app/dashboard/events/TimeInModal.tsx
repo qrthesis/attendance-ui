@@ -26,14 +26,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
   }
 
   const getCStyleJSONString = (jsonObject: any) => {
-    var formattedJsonString = JSON.stringify(jsonObject, function (key, value) {
-      // Escape double quotes and add backslashes to the key and value
-      if (typeof value === "string") {
-        return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-      }
-      return value;
-    });
-
+    const formattedJsonString = `{\"user\":\"${jsonObject.user}\",\"time\":\"${jsonObject.time}\"}`;
     return formattedJsonString;
   }; ///
 
