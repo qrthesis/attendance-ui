@@ -25,6 +25,18 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
     return null;
   }
 
+  const getCStyleJSONString = (jsonObject: any) => {
+    var formattedJsonString = JSON.stringify(jsonObject, function (key, value) {
+      // Escape double quotes and add backslashes to the key and value
+      if (typeof value === "string") {
+        return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+      }
+      return value;
+    });
+
+    return formattedJsonString;
+  }; ///
+
   const timeInModalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -64,7 +76,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
           </Typography>
 
           <Canvas
-            text={JSON.stringify({ user, time: dayjs().unix() })}
+            text={getCStyleJSONString({ user, time: dayjs().unix() })}
             options={{
               errorCorrectionLevel: "M",
               margin: 3,
