@@ -25,10 +25,10 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
     return null;
   }
 
-  const getCStyleJSONString = (jsonObject: any) => {
-    const formattedJsonString = `{\"user\":\"${jsonObject.user}\",\"time\":\"${jsonObject.time}\"}`;
-    return formattedJsonString;
-  }; ///
+  // const getCStyleJSONString = (jsonObject: any) => {
+  //   const formattedJsonString = `{\"user\":\"${jsonObject.user}\",\"time\":\"${jsonObject.time}\"}`;
+  //   return formattedJsonString;
+  // }; ///
 
   const timeInModalStyle = {
     position: "absolute" as "absolute",
@@ -69,7 +69,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
           </Typography>
 
           <Canvas
-            text={getCStyleJSONString({ user, time: dayjs().unix() })}
+            text={JSON.stringify({ user, time: dayjs().unix() })}
             options={{
               errorCorrectionLevel: "M",
               margin: 3,
