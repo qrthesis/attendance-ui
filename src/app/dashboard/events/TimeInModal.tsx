@@ -11,6 +11,7 @@ interface ITimeInModalProps {
   updateVisibility: () => void;
   isRenderable: boolean;
   user: string;
+  eventId: string;
 }
 
 const TimeInModal: React.FC<ITimeInModalProps> = ({
@@ -18,6 +19,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
   updateVisibility,
   isRenderable,
   user,
+  eventId,
 }) => {
   const { Canvas } = useQRCode();
 
@@ -25,11 +27,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
     return null;
   }
 
-  // const getCStyleJSONString = (jsonObject: any) => {
-  //   const formattedJsonString = `{\"user\":\"${jsonObject.user}\",\"time\":\"${jsonObject.time}\"}`;
-  //   return formattedJsonString;
-  // }; ///
-
+  console.log("user", JSON.stringify({ user, time: dayjs().unix(), eventId }));
   const timeInModalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -69,7 +67,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
           </Typography>
 
           <Canvas
-            text={JSON.stringify({ user, time: dayjs().unix() })}
+            text={JSON.stringify({ user, time: dayjs().unix(), eventId })}
             options={{
               errorCorrectionLevel: "M",
               margin: 3,

@@ -11,7 +11,13 @@ import TablePagination from "@mui/material/TablePagination";
 
 import { ITableProps } from "./types";
 
-const BasicTable = ({ tableKey, rowHeaders, rowData, user, actions }: ITableProps) => {
+const BasicTable = ({
+  tableKey,
+  rowHeaders,
+  rowData,
+  user,
+  actions,
+}: ITableProps) => {
   const renderRowHeaders = () => {
     return rowHeaders.map((header: string, index: number) => {
       return (
@@ -40,27 +46,33 @@ const BasicTable = ({ tableKey, rowHeaders, rowData, user, actions }: ITableProp
     if (user?.role !== "admin" && tableKey === "inprogress-events-table") {
       return (
         <Fragment>
-          <TableCell key={`${tableKey}-actions-clock-in`} align="center" sx={{
-            cursor: 'pointer',
-            ":hover": {
-              color: 'blue',
-              fontWeight: 'bold',
-              backgroundColor: 'lightgray'
-            }
-          }}
-            onClick={() => actions?.clockIn?.()}
+          <TableCell
+            key={`${tableKey}-actions-clock-in`}
+            align="center"
+            sx={{
+              cursor: "pointer",
+              ":hover": {
+                color: "blue",
+                fontWeight: "bold",
+                backgroundColor: "lightgray",
+              },
+            }}
+            onClick={() => actions?.timeIn?.(row)}
           >
             Clock in
           </TableCell>
-          <TableCell key={`${tableKey}-actions-clock-out`} align="center" sx={{
-            cursor: 'pointer',
-            ":hover": {
-              color: 'blue',
-              fontWeight: 'bold',
-              backgroundColor: 'lightgray'
-            }
-          }}
-            onClick={() => actions?.clockOut?.()}
+          <TableCell
+            key={`${tableKey}-actions-clock-out`}
+            align="center"
+            sx={{
+              cursor: "pointer",
+              ":hover": {
+                color: "blue",
+                fontWeight: "bold",
+                backgroundColor: "lightgray",
+              },
+            }}
+            onClick={() => actions?.timeOut?.(row)}
           >
             Clock out
           </TableCell>
@@ -68,19 +80,25 @@ const BasicTable = ({ tableKey, rowHeaders, rowData, user, actions }: ITableProp
       );
     }
 
-    return <Fragment>
-      <TableCell key={`${tableKey}-actions-view-attendance`} align="center" sx={{
-        cursor: 'pointer',
-        ":hover": {
-          color: 'blue',
-          fontWeight: 'bold',
-          backgroundColor: 'lightgray'
-        }
-      }}>
-        View Attendance
-      </TableCell>
-    </Fragment>
-  }
+    return (
+      <Fragment>
+        <TableCell
+          key={`${tableKey}-actions-view-attendance`}
+          align="center"
+          sx={{
+            cursor: "pointer",
+            ":hover": {
+              color: "blue",
+              fontWeight: "bold",
+              backgroundColor: "lightgray",
+            },
+          }}
+        >
+          View Attendance
+        </TableCell>
+      </Fragment>
+    );
+  };
 
   return (
     <Fragment>
@@ -129,8 +147,8 @@ const BasicTable = ({ tableKey, rowHeaders, rowData, user, actions }: ITableProp
         count={5}
         rowsPerPage={5}
         page={0}
-        onPageChange={() => { }}
-        onRowsPerPageChange={() => { }}
+        onPageChange={() => {}}
+        onRowsPerPageChange={() => {}}
       />
     </Fragment>
   );

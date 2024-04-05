@@ -34,6 +34,8 @@ const CreateEventPage: React.FC<any> = () => {
 
   const { completed, upcoming, inProgress } = events.data;
 
+  const [selectedEventId, setSelectedEventId] = React.useState<string>("");
+
   const formatTableData = (event: "upcoming" | "completed" | "inProgress") => {
     return events.data[event].map((event: any) => {
       return [
@@ -42,6 +44,26 @@ const CreateEventPage: React.FC<any> = () => {
         dayjs.unix(event.date).format("MM/DD/YYYY"),
       ];
     });
+  };
+
+  const timeIn = (row: any) => {
+    const selectedEvent = events.data["inProgress"].find(
+      (event) => event.name === row[0]
+    );
+    console.log("timeIn", selectedEvent);
+
+    setSelectedEventId(selectedEvent._id);
+
+    modal.timeIn.updateVisibility();
+  };
+  const timeOut = (row: any) => {
+    const selectedEvent = events.data["inProgress"].find(
+      (event) => event.name === row[0]
+    );
+    console.log("timeIn", selectedEvent);
+
+    setSelectedEventId(selectedEvent._id);
+    modal.timeOut.updateVisibility();
   };
 
   return (
@@ -73,6 +95,7 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("upcoming")}
               user={user}
+              event={events.data.upcoming}
             />
           </AccordionDetails>
         </Accordion>
@@ -97,10 +120,8 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Event Name", "Description", "Date"]}
               rowData={formatTableData("inProgress")}
               user={user}
-              actions={{
-                clockIn: modal.timeIn.updateVisibility,
-                clockOut: modal.timeOut.updateVisibility,
-              }}
+              actions={{ timeIn, timeOut }}
+              event={events.data.inProgress}
             />
           </AccordionDetails>
         </Accordion>
@@ -124,6 +145,7 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("completed")}
               user={user}
+              event={events.data.completed}
             />
           </AccordionDetails>
         </Accordion>
@@ -151,12 +173,14 @@ const CreateEventPage: React.FC<any> = () => {
         updateVisibility={modal.timeIn.updateVisibility}
         isRenderable={user?.role !== "admin"}
         user={user?.email}
+        eventId={selectedEventId}
       />
       <TimeOutModal
         isVisible={modal.timeOut.isVisible}
         updateVisibility={modal.timeOut.updateVisibility}
         isRenderable={user?.role !== "admin"}
         user={user?.email}
+        eventId={selectedEventId}
       />
 
       <Snackbar

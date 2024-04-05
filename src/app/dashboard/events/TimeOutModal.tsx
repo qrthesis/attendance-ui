@@ -11,6 +11,7 @@ interface ITimeOutModalProps {
   updateVisibility: () => void;
   isRenderable: boolean;
   user: string;
+  eventId: string;
 }
 
 const TimeOutModal: React.FC<ITimeOutModalProps> = ({
@@ -18,6 +19,7 @@ const TimeOutModal: React.FC<ITimeOutModalProps> = ({
   updateVisibility,
   isRenderable,
   user,
+  eventId,
 }) => {
   const { Canvas } = useQRCode();
 
@@ -64,7 +66,7 @@ const TimeOutModal: React.FC<ITimeOutModalProps> = ({
           </Typography>
 
           <Canvas
-            text={JSON.stringify({ user, time: dayjs().unix() })}
+            text={JSON.stringify({ user, time: dayjs().unix(), eventId })}
             options={{
               errorCorrectionLevel: "M",
               margin: 3,

@@ -4,8 +4,9 @@ export interface ITableProps {
   rowData: any;
   user: any;
   actions?: {
-    clockIn?: () => void;
-    clockOut?: () => void;
+    timeIn?: (rowData: any) => void;
+    timeOut?: (rowData: any) => void;
     viewAttendance?: string;
   };
+  event: any;
 }
