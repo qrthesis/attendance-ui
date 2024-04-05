@@ -95,7 +95,6 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("upcoming")}
               user={user}
-              event={events.data.upcoming}
             />
           </AccordionDetails>
         </Accordion>
@@ -121,7 +120,6 @@ const CreateEventPage: React.FC<any> = () => {
               rowData={formatTableData("inProgress")}
               user={user}
               actions={{ timeIn, timeOut }}
-              event={events.data.inProgress}
             />
           </AccordionDetails>
         </Accordion>
@@ -145,7 +143,6 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("completed")}
               user={user}
-              event={events.data.completed}
             />
           </AccordionDetails>
         </Accordion>

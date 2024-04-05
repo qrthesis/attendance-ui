@@ -8,5 +8,4 @@ export interface ITableProps {
     timeOut?: (rowData: any) => void;
     viewAttendance?: string;
   };
-  event: any;
 }
