@@ -66,7 +66,7 @@ const TimeOutModal: React.FC<ITimeOutModalProps> = ({
           </Typography>
 
           <Canvas
-            text={JSON.stringify({ user, time: dayjs().unix(), eventId })}
+            text={`${user}!${eventId}`}
             options={{
               errorCorrectionLevel: "M",
               margin: 3,

@@ -27,10 +27,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
     return null;
   }
 
-  console.log(
-    "user",
-    JSON.stringify({ user, time: dayjs().unix().toString(), eventId })
-  );
+  console.log("user", `${user}!${eventId}`.length);
   const timeInModalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -70,11 +67,7 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
           </Typography>
 
           <Canvas
-            text={JSON.stringify({
-              user,
-              time: dayjs().unix().toString(),
-              eventId,
-            })}
+            text={`${user}!${eventId}`}
             options={{
               errorCorrectionLevel: "M",
               margin: 3,
