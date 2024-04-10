@@ -3,13 +3,15 @@ import axiosInstance from "./axios.config";
 export const createEvent = async (
   eventName: string,
   description: string,
-  date: any
+  timeIn: any,
+  timeOut: any
 ) => {
   try {
     const res = await axiosInstance.post("/create-event", {
       eventName,
       description,
-      date,
+      timeIn,
+      timeOut,
     });
     return {
       message: res.data.message,

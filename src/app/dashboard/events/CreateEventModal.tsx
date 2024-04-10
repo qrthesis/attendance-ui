@@ -11,6 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 interface ICreateEventModalProps {
   isVisible: boolean;
@@ -77,18 +78,16 @@ const CreateEventModal: React.FC<ICreateEventModalProps> = ({
                 width: "100%",
               }}
             >
-              <DatePicker
-                label="Event Date"
-                value={dayjs(fields.value.date)}
-                onChange={(newValue) => fields.handler("date", newValue)}
-              />
-              <TimePicker
-                label="Time in"
+              <DateTimePicker
+                label="Event Start"
                 onChange={(timeIn) => fields.handler("timeIn", timeIn)}
+                disablePast
               />
-              <TimePicker
-                label="Time out"
+
+              <DateTimePicker
+                label="Event End"
                 onChange={(timeOut) => fields.handler("timeOut", timeOut)}
+                disablePast
               />
             </Stack>
           </LocalizationProvider>

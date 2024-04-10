@@ -29,7 +29,6 @@ const useEvent = () => {
   const [createEventFields, setCreateEventFields] = useState({
     name: "",
     description: "",
-    date: "",
     timeIn: "",
     timeOut: "",
   });
@@ -64,6 +63,7 @@ const useEvent = () => {
   };
 
   const handleCreateEventFieldChange = (key: string, value: any) => {
+    console.log(key, value);
     setCreateEventFields((prevState) => ({
       ...prevState,
       [key]: value,
@@ -74,14 +74,14 @@ const useEvent = () => {
     const result = await createEvent(
       createEventFields.name,
       createEventFields.description,
-      dayjs(createEventFields.date).unix()
+      dayjs(createEventFields.timeIn).unix(),
+      dayjs(createEventFields.timeOut).unix()
     );
 
     if (result?.status === 200) {
       setCreateEventFields({
         name: "",
         description: "",
-        date: "",
         timeIn: "",
         timeOut: "",
       });

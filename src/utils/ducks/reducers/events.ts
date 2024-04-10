@@ -31,7 +31,8 @@ const eventsSlice = createSlice({
       fetchedEvents.forEach((event: any) => {
         // = new Date(event.date);
 
-        const eventDate = dayjs.unix(event.date).format("MM/DD/YYYY");
+        console.log("EVENT ", dayjs.unix(event.timeIn).format("MM/DD/YYYY"));
+        const eventDate = dayjs.unix(event.timeIn).format("MM/DD/YYYY");
 
         if (dayjs().isBefore(eventDate, "date")) {
           upcomingEvents.push(event);

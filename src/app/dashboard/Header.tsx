@@ -58,7 +58,7 @@ const Header: React.FC<Props> = ({ window }) => {
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
-
+  ``;
   const getNavBarItems = () => {
     if (user?.role === "admin") {
       return ["Users", "Events", "Logout"];

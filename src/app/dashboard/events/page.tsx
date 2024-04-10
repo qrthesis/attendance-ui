@@ -41,7 +41,7 @@ const CreateEventPage: React.FC<any> = () => {
       return [
         event.name,
         event.description,
-        dayjs.unix(event.date).format("MM/DD/YYYY"),
+        dayjs.unix(event.timeIn).format("MM/DD/YYYY"),
       ];
     });
   };
