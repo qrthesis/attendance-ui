@@ -30,6 +30,8 @@ const useEvent = () => {
     name: "",
     description: "",
     date: "",
+    timeIn: "",
+    timeOut: "",
   });
   const [snackbarState, setSnackbarState] = useState<{
     open: boolean;
@@ -80,6 +82,8 @@ const useEvent = () => {
         name: "",
         description: "",
         date: "",
+        timeIn: "",
+        timeOut: "",
       });
       setIsCreateModalVisible((prevState) => !prevState);
       handleOpenSnackbar(result?.message);

@@ -26,7 +26,7 @@ const Header: React.FC<Props> = ({ window }) => {
   const [user, setUser] = useState<any>();
 
   const drawerWidth = 240;
-  const navItems = ["User", "Events", "Logout"];
+  const navItems = ["Users", "Events", "Logout"];
 
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -68,6 +68,7 @@ const Header: React.FC<Props> = ({ window }) => {
   };
 
   const handleNavClick = (navItem: string) => {
+    console.log("Drawer nav click", navItem);
     if (navItem === "Users") {
       router.push("/dashboard/users");
     } else if (navItem === "Events") {

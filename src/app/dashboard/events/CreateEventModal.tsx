@@ -82,8 +82,14 @@ const CreateEventModal: React.FC<ICreateEventModalProps> = ({
                 value={dayjs(fields.value.date)}
                 onChange={(newValue) => fields.handler("date", newValue)}
               />
-              <TimePicker label="Time in" />
-              <TimePicker label="Time out" />
+              <TimePicker
+                label="Time in"
+                onChange={(timeIn) => fields.handler("timeIn", timeIn)}
+              />
+              <TimePicker
+                label="Time out"
+                onChange={(timeOut) => fields.handler("timeOut", timeOut)}
+              />
             </Stack>
           </LocalizationProvider>
 
