@@ -169,6 +169,8 @@ const useEvent = () => {
         checkTimeOutStatus: async (eventId: string) => {
           const message = await getTimeOutStatus(eventId, user.email);
 
+          console.log("MESSAGE", message);
+
           if (message === "Too early to time out!!") {
             return handleOpenSnackbar(
               "Too early to time out!! Event hasn't ended yet"
@@ -177,6 +179,10 @@ const useEvent = () => {
             return handleOpenSnackbar(
               "Student hasn't time in yet!!Time in first!!"
             );
+          } else if (message === "Event hasn't started yet") {
+            return handleOpenSnackbar("Event hasn't started yet!!");
+          } else if (message === "Student already timed out") {
+            return handleOpenSnackbar("Student already timed out!!");
           }
           setIsTimeInModalVisible((prevState) => !prevState);
         },

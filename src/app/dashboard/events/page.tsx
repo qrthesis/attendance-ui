@@ -63,8 +63,10 @@ const CreateEventPage: React.FC<any> = () => {
     );
     console.log("timeIn", selectedEvent);
 
+    modal.timeOut.checkTimeOutStatus(selectedEvent._id);
+
     setSelectedEventId(selectedEvent._id);
-    modal.timeOut.updateVisibility();
+    // modal.timeOut.updateVisibility();
   };
 
   return (
