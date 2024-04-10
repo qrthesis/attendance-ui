@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useAppDispatch } from "@/utils/ducks/store";
 
-import { createEvent, getEvents } from "@/utils/queries/events";
+import {
+  createEvent,
+  getEvents,
+  getStudentEvents,
+  getTimeInStatus,
+  getTimeOutStatus,
+} from "@/utils/queries/events";
 import { resetPassword } from "@/utils/queries/user";
 import { saveEvents } from "@/utils/ducks/reducers/events";
 import { useAppSelector } from "@/utils/ducks/store";
@@ -145,11 +151,35 @@ const useEvent = () => {
         isVisible: isTimeInModalVisible,
         updateVisibility: () =>
           setIsTimeInModalVisible((prevState) => !prevState),
+        checkTimeInStatus: async (eventId: string) => {
+          const message = await getTimeInStatus(eventId, user.email);
+
+          if (message === "Event hasn't started yet") {
+            return handleOpenSnackbar(
+              "Too early to time in! Event hasn't started yet"
+            );
+          }
+          setIsTimeInModalVisible((prevState) => !prevState);
+        },
       },
       timeOut: {
         isVisible: isTimeOutModalVisible,
         updateVisibility: () =>
           setIsTimeOutModalVisible((prevState) => !prevState),
+        checkTimeOutStatus: async (eventId: string) => {
+          const message = await getTimeOutStatus(eventId, user.email);
+
+          if (message === "Too early to time out!!") {
+            return handleOpenSnackbar(
+              "Too early to time in! Event hasn't ended yet"
+            );
+          } else if (message === "Student hasn't time in yet") {
+            return handleOpenSnackbar(
+              "Student hasn't time in yet!!Time in first!!"
+            );
+          }
+          setIsTimeInModalVisible((prevState) => !prevState);
+        },
       },
     },
     fields: {

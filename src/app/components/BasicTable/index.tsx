@@ -57,7 +57,7 @@ const BasicTable = ({
                 backgroundColor: "lightgray",
               },
             }}
-            onClick={() => actions?.timeIn?.(row)}
+            onClick={() => actions?.timeIn?.callback?.(row)}
           >
             Clock in
           </TableCell>
@@ -72,7 +72,7 @@ const BasicTable = ({
                 backgroundColor: "lightgray",
               },
             }}
-            onClick={() => actions?.timeOut?.(row)}
+            onClick={() => actions?.timeOut?.callback?.(row)}
           >
             Clock out
           </TableCell>

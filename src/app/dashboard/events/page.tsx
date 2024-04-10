@@ -32,8 +32,6 @@ const CreateEventPage: React.FC<any> = () => {
     user,
   } = useEvent();
 
-  const { completed, upcoming, inProgress } = events.data;
-
   const [selectedEventId, setSelectedEventId] = React.useState<string>("");
 
   const formatTableData = (event: "upcoming" | "completed" | "inProgress") => {
@@ -41,7 +39,7 @@ const CreateEventPage: React.FC<any> = () => {
       return [
         event.name,
         event.description,
-        dayjs.unix(event.timeIn).format("MM/DD/YYYY"),
+        dayjs.unix(event.timeIn).format("MM/DD/YYYY hh:mm A"),
       ];
     });
   };
@@ -52,10 +50,13 @@ const CreateEventPage: React.FC<any> = () => {
     );
     console.log("timeIn", selectedEvent);
 
+    modal.timeIn.checkTimeInStatus(selectedEvent._id);
+
     setSelectedEventId(selectedEvent._id);
 
-    modal.timeIn.updateVisibility();
+    // modal.timeIn.updateVisibility();
   };
+
   const timeOut = (row: any) => {
     const selectedEvent = events.data["inProgress"].find(
       (event) => event.name === row[0]
@@ -119,7 +120,16 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Event Name", "Description", "Date"]}
               rowData={formatTableData("inProgress")}
               user={user}
-              actions={{ timeIn, timeOut }}
+              actions={{
+                timeIn: {
+                  callback: timeIn,
+                  disabled: false,
+                },
+                timeOut: {
+                  callback: timeOut,
+                  disabled: false,
+                },
+              }}
             />
           </AccordionDetails>
         </Accordion>

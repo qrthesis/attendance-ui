@@ -31,3 +31,41 @@ export const getEvents = async () => {
     return [];
   }
 };
+
+export const getStudentEvents = async (studentId: string) => {
+  console.log("studentId", studentId);
+};
+
+export const getTimeInStatus = async (eventId: string, email: string) => {
+  try {
+    const res = await axiosInstance.get("/get-time-in-status", {
+      params: {
+        eventId,
+        email,
+      },
+    });
+
+    return res.data.message;
+
+    // return res.data.data;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getTimeOutStatus = async (eventId: string, email: string) => {
+  try {
+    const res = await axiosInstance.get("/get-time-in-status", {
+      params: {
+        eventId,
+        email,
+      },
+    });
+
+    return res.data.message;
+
+    // return res.data.data;
+  } catch (error) {
+    return null;
+  }
+};

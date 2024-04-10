@@ -4,8 +4,14 @@ export interface ITableProps {
   rowData: any;
   user: any;
   actions?: {
-    timeIn?: (rowData: any) => void;
-    timeOut?: (rowData: any) => void;
+    timeIn?: {
+      callback: (rowData: any) => void;
+      disabled: boolean;
+    };
+    timeOut?: {
+      callback: (rowData: any) => void;
+      disabled: boolean;
+    };
     viewAttendance?: string;
   };
 }
