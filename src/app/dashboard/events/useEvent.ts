@@ -171,9 +171,9 @@ const useEvent = () => {
 
           if (message === "Too early to time out!!") {
             return handleOpenSnackbar(
-              "Too early to time in! Event hasn't ended yet"
+              "Too early to time out!! Event hasn't ended yet"
             );
-          } else if (message === "Student hasn't time in yet") {
+          } else if (message === "Student hasn't time in yet!!") {
             return handleOpenSnackbar(
               "Student hasn't time in yet!!Time in first!!"
             );
