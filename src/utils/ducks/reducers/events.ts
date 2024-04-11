@@ -7,6 +7,7 @@ interface IEventsState {
     upcoming: Array<any>;
     inProgress: Array<any>;
   };
+  attendance: Array<any>;
 }
 
 const initialState: IEventsState = {
@@ -15,6 +16,7 @@ const initialState: IEventsState = {
     upcoming: [],
     inProgress: [],
   },
+  attendance: [],
 };
 
 const eventsSlice = createSlice({
@@ -52,12 +54,18 @@ const eventsSlice = createSlice({
         },
       };
     },
+    saveAttendance: (state, action) => {
+      return {
+        ...state,
+        attendance: action.payload,
+      };
+    },
     resetState: (state) => ({
       ...initialState,
     }),
   },
 });
 
-export const { saveEvents, resetState } = eventsSlice.actions;
+export const { saveEvents, resetState, saveAttendance } = eventsSlice.actions;
 
 export default eventsSlice.reducer;

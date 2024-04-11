@@ -7,9 +7,10 @@ import {
   getStudentEvents,
   getTimeInStatus,
   getTimeOutStatus,
+  getAttendance,
 } from "@/utils/queries/events";
 import { resetPassword } from "@/utils/queries/user";
-import { saveEvents } from "@/utils/ducks/reducers/events";
+import { saveEvents, saveAttendance } from "@/utils/ducks/reducers/events";
 import { useAppSelector } from "@/utils/ducks/store";
 
 import dayjs from "dayjs";
@@ -21,7 +22,7 @@ const useEvent = () => {
   const dispatch = useAppDispatch();
   const [user, setUser] = useState<any>();
 
-  const { events } = useAppSelector((state) => state.eventsSlice);
+  const { events, attendance } = useAppSelector((state) => state.eventsSlice);
 
   const [isCreateEventModalVisible, setIsCreateModalVisible] =
     useState<boolean>(false);
@@ -30,6 +31,8 @@ const useEvent = () => {
   const [isTimeInModalVisible, setIsTimeInModalVisible] =
     useState<boolean>(false);
   const [isTimeOutModalVisible, setIsTimeOutModalVisible] =
+    useState<boolean>(false);
+  const [isViewAttendanceModalVisible, setIsViewAttendanceModalVisible] =
     useState<boolean>(false);
 
   const [createEventFields, setCreateEventFields] = useState({
@@ -104,6 +107,12 @@ const useEvent = () => {
 
     dispatch(saveEvents(events));
     console.log(events);
+  };
+
+  const fetchAttendance = async (eventId: string) => {
+    const attendance = await getAttendance(eventId);
+    dispatch(saveAttendance(attendance));
+    console.log(attendance);
   };
 
   const handleResetPassword = async (
@@ -187,6 +196,12 @@ const useEvent = () => {
           setIsTimeInModalVisible((prevState) => !prevState);
         },
       },
+      viewAttendance: {
+        isVisible: isViewAttendanceModalVisible,
+        updateVisibility: () =>
+          setIsViewAttendanceModalVisible((prevState) => !prevState),
+        fetchAttendance,
+      },
     },
     fields: {
       value: createEventFields,
@@ -204,6 +219,7 @@ const useEvent = () => {
         ...events,
       },
     },
+    attendance,
     handleResetPassword,
     user,
   };

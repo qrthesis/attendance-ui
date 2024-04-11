@@ -79,25 +79,27 @@ const BasicTable = ({
         </Fragment>
       );
     }
-
-    return (
-      <Fragment>
-        <TableCell
-          key={`${tableKey}-actions-view-attendance`}
-          align="center"
-          sx={{
-            cursor: "pointer",
-            ":hover": {
-              color: "blue",
-              fontWeight: "bold",
-              backgroundColor: "lightgray",
-            },
-          }}
-        >
-          View Attendance
-        </TableCell>
-      </Fragment>
-    );
+    if (actions?.viewAttendance) {
+      return (
+        <Fragment>
+          <TableCell
+            key={`${tableKey}-actions-view-attendance`}
+            align="center"
+            sx={{
+              cursor: "pointer",
+              ":hover": {
+                color: "blue",
+                fontWeight: "bold",
+                backgroundColor: "lightgray",
+              },
+            }}
+            onClick={() => actions?.viewAttendance?.callback?.(row)}
+          >
+            View Attendance
+          </TableCell>
+        </Fragment>
+      );
+    }
   };
 
   return (

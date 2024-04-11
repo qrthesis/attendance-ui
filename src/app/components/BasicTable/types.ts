@@ -2,7 +2,7 @@ export interface ITableProps {
   tableKey: string;
   rowHeaders: Array<string>;
   rowData: any;
-  user: any;
+  user?: any;
   actions?: {
     timeIn?: {
       callback: (rowData: any) => void;
@@ -12,6 +12,8 @@ export interface ITableProps {
       callback: (rowData: any) => void;
       disabled: boolean;
     };
-    viewAttendance?: string;
+    viewAttendance?: {
+      callback: (rowData: any) => void;
+    };
   };
 }

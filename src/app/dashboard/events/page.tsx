@@ -20,6 +20,7 @@ import CreateEventModal from "./CreateEventModal";
 import ResetPasswordModal from "./ResetPasswordModal";
 import TimeInModal from "./TimeInModal";
 import TimeOutModal from "./TimeOutModal";
+import ViewAttendanceModal from "./ViewAttendanceModal";
 
 const CreateEventPage: React.FC<any> = () => {
   const {
@@ -30,9 +31,11 @@ const CreateEventPage: React.FC<any> = () => {
     handleCreateEvent,
     handleResetPassword,
     user,
+    attendance,
   } = useEvent();
 
   const [selectedEventId, setSelectedEventId] = React.useState<string>("");
+  const [selectedEvent, setSelectedEvent] = React.useState<any>({});
 
   const formatTableData = (event: "upcoming" | "completed" | "inProgress") => {
     return events.data[event].map((event: any) => {
@@ -61,12 +64,25 @@ const CreateEventPage: React.FC<any> = () => {
     const selectedEvent = events.data["inProgress"].find(
       (event) => event.name === row[0]
     );
-    console.log("timeIn", selectedEvent);
 
     modal.timeOut.checkTimeOutStatus(selectedEvent._id);
 
     setSelectedEventId(selectedEvent._id);
     // modal.timeOut.updateVisibility();
+  };
+
+  const viewAttendance = (row: any) => {
+    const mergedEvents = events.data["inProgress"].concat(
+      events.data["completed"]
+    );
+
+    const selectedEvent = mergedEvents.find((event) => event.name === row[0]);
+    console.log("viewAttendance", selectedEvent);
+
+    modal.viewAttendance.fetchAttendance(selectedEvent._id);
+
+    modal.viewAttendance.updateVisibility();
+    setSelectedEvent(selectedEvent);
   };
 
   return (
@@ -131,6 +147,9 @@ const CreateEventPage: React.FC<any> = () => {
                   callback: timeOut,
                   disabled: false,
                 },
+                viewAttendance: {
+                  callback: viewAttendance,
+                },
               }}
             />
           </AccordionDetails>
@@ -155,6 +174,11 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("completed")}
               user={user}
+              actions={{
+                viewAttendance: {
+                  callback: viewAttendance,
+                },
+              }}
             />
           </AccordionDetails>
         </Accordion>
@@ -190,6 +214,13 @@ const CreateEventPage: React.FC<any> = () => {
         isRenderable={user?.role !== "admin"}
         user={user?.email}
         eventId={selectedEventId}
+      />
+
+      <ViewAttendanceModal
+        isVisible={modal.viewAttendance.isVisible}
+        updateVisibility={modal.viewAttendance.updateVisibility}
+        eventDetails={selectedEvent}
+        attendance={attendance}
       />
 
       <Snackbar

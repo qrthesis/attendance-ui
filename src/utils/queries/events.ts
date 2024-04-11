@@ -69,3 +69,17 @@ export const getTimeOutStatus = async (eventId: string, email: string) => {
     return null;
   }
 };
+
+export const getAttendance = async (eventId: string) => {
+  try {
+    const res = await axiosInstance.get("/get-attendance", {
+      params: {
+        eventId,
+      },
+    });
+
+    return res.data.attendance;
+  } catch (error) {
+    return null;
+  }
+};
