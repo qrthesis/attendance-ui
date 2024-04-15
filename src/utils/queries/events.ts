@@ -83,3 +83,17 @@ export const getAttendance = async (eventId: string) => {
     return null;
   }
 };
+
+
+export const deleteEventById = async (id: string) => {
+  try {
+    const res = await axiosInstance.delete("/delete-event", {
+      params: {
+        eventId: id
+      }
+    })
+        return res;
+  } catch (error) {
+    return null;
+  }
+}

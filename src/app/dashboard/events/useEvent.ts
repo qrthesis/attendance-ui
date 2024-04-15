@@ -8,6 +8,7 @@ import {
   getTimeInStatus,
   getTimeOutStatus,
   getAttendance,
+  deleteEventById
 } from "@/utils/queries/events";
 import { resetPassword } from "@/utils/queries/user";
 import { saveEvents, saveAttendance } from "@/utils/ducks/reducers/events";
@@ -101,6 +102,23 @@ const useEvent = () => {
       handleOpenSnackbar("Event creation failed!!");
     }
   };
+
+  const deleteEvent = async (rowData: any) => {
+
+    const selectedEvent = [...events.upcoming, ...events.completed, ...events.inProgress].filter((event: any) => event.name === rowData[0]);
+    console.log('RowData: ', selectedEvent)
+
+    const result = await deleteEventById(selectedEvent[0]._id);
+    console.log("users", selectedEvent[0], result);
+
+    if (result?.status !== 200) {
+      return handleOpenSnackbar("User deletion failed!!");
+    } 
+
+    handleOpenSnackbar(result?.data?.message);
+    fetchEvents();
+  }
+
 
   const fetchEvents = async () => {
     const events = await getEvents();
@@ -222,6 +240,7 @@ const useEvent = () => {
     attendance,
     handleResetPassword,
     user,
+    deleteEvent
   };
 };
 

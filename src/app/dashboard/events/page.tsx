@@ -32,6 +32,7 @@ const CreateEventPage: React.FC<any> = () => {
     handleResetPassword,
     user,
     attendance,
+    deleteEvent
   } = useEvent();
 
   const [selectedEventId, setSelectedEventId] = React.useState<string>("");
@@ -114,6 +115,11 @@ const CreateEventPage: React.FC<any> = () => {
               rowHeaders={["Name", "Description", "Date"]}
               rowData={formatTableData("upcoming")}
               user={user}
+              actions={{
+                delete: {
+                  callback: deleteEvent,
+                }
+              }}
             />
           </AccordionDetails>
         </Accordion>
@@ -150,6 +156,9 @@ const CreateEventPage: React.FC<any> = () => {
                 viewAttendance: {
                   callback: viewAttendance,
                 },
+                delete: {
+                  callback: deleteEvent,
+                }
               }}
             />
           </AccordionDetails>
@@ -178,6 +187,9 @@ const CreateEventPage: React.FC<any> = () => {
                 viewAttendance: {
                   callback: viewAttendance,
                 },
+                delete: {
+                  callback: deleteEvent,
+                }
               }}
             />
           </AccordionDetails>

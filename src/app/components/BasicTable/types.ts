@@ -16,7 +16,7 @@ export interface ITableProps {
       callback: (rowData: any) => void;
     };
     delete: {
-      user?: (rowData: any) => void;
+      callback?: (rowData: any) => void;
     }
   };
 }

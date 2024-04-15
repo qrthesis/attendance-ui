@@ -84,7 +84,7 @@ const BasicTable = ({
         </Fragment>
       );
     }
-    if (actions?.viewAttendance) {
+    if (user?.role !== "admin" && actions?.viewAttendance) {
       return (
         <Fragment>
           <TableCell
@@ -106,6 +106,42 @@ const BasicTable = ({
       );
     }
 
+    if (user?.role === "admin" && actions?.viewAttendance) {
+      return (
+        <Fragment>
+          <TableCell
+            key={`${tableKey}-actions-view-attendance`}
+            align="center"
+            sx={{
+              cursor: "pointer",
+              ":hover": {
+                color: "blue",
+                fontWeight: "bold",
+                backgroundColor: "lightgray",
+              },
+            }}
+            onClick={() => actions?.viewAttendance?.callback?.(row)}
+          >
+            View Attendance
+          </TableCell>
+          <TableCell
+          key={`${tableKey}-actions-delete-user`}
+          align="center"
+        >
+          <DeleteIcon sx={{
+            cursor: "pointer",
+            ":hover": {
+              color: "red",
+              fontWeight: "bold",
+            },
+          }} 
+            onClick={() => actions?.delete?.callback?.(row)}
+          />
+        </TableCell>
+        </Fragment>
+      );
+    }
+
     if (user?.role === 'admin' && (tableKey === "student-user-table" || tableKey === "admin-user-table")) {
      return (
       <Fragment>
@@ -123,9 +159,9 @@ const BasicTable = ({
               fontWeight: "bold",
             },
           }} 
-            onClick={() => actions?.delete?.user?.(row)}
+            onClick={() => actions?.delete?.callback?.(row)}
           />
-      </TableCell>
+        </TableCell>
       </Fragment>
       ) 
     }
