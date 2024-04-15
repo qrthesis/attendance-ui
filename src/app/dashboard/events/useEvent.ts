@@ -50,17 +50,20 @@ const useEvent = () => {
       }
     >;
     message: string;
+    severity?: "success" | "error";
   }>({
     open: false,
     Transition: Fade,
     message: "",
+    severity: "success",
   });
 
-  const handleOpenSnackbar = (message: string) => {
+  const handleOpenSnackbar = (message: string, severity: "success" | "error") => {
     return setSnackbarState((prevState) => ({
       ...prevState,
       open: true,
       message,
+      severity
     }));
   };
 
@@ -96,10 +99,10 @@ const useEvent = () => {
         timeOut: "",
       });
       setIsCreateModalVisible((prevState) => !prevState);
-      handleOpenSnackbar(result?.message);
+      handleOpenSnackbar(result?.message, "success");
       fetchEvents();
     } else {
-      handleOpenSnackbar("Event creation failed!!");
+      handleOpenSnackbar("Event creation failed!!", "error");
     }
   };
 
@@ -112,10 +115,10 @@ const useEvent = () => {
     console.log("users", selectedEvent[0], result);
 
     if (result?.status !== 200) {
-      return handleOpenSnackbar("User deletion failed!!");
+      return handleOpenSnackbar("User deletion failed!!", "error");
     } 
 
-    handleOpenSnackbar(result?.data?.message);
+    handleOpenSnackbar(result?.data?.message, "success");
     fetchEvents();
   }
 
@@ -144,10 +147,10 @@ const useEvent = () => {
       delete updatedUser.password;
 
       setIsResetPasswordModalVisible((prevState) => !prevState);
-      handleOpenSnackbar(result?.data?.message);
+      handleOpenSnackbar(result?.data?.message, "success");
       localStorage.setItem("user", JSON.stringify(updatedUser));
     } else {
-      handleOpenSnackbar("Reset password failed!!");
+      handleOpenSnackbar("Reset password failed!!", "error");
     }
   };
 
@@ -183,7 +186,7 @@ const useEvent = () => {
 
           if (message === "Event hasn't started yet") {
             return handleOpenSnackbar(
-              "Too early to time in! Event hasn't started yet"
+              "Too early to time in! Event hasn't started yet", "error"
             );
           }
           setIsTimeInModalVisible((prevState) => !prevState);
@@ -196,20 +199,18 @@ const useEvent = () => {
         checkTimeOutStatus: async (eventId: string) => {
           const message = await getTimeOutStatus(eventId, user.email);
 
-          console.log("MESSAGE", message);
-
           if (message === "Too early to time out!!") {
             return handleOpenSnackbar(
-              "Too early to time out!! Event hasn't ended yet"
+              "Too early to time out!! Event hasn't ended yet", "error"
             );
           } else if (message === "Student hasn't time in yet") {
             return handleOpenSnackbar(
-              "Student hasn't time in yet!!Time in first!!"
+              "Student hasn't time in yet!!Time in first!!", "error"
             );
           } else if (message === "Event hasn't started yet") {
-            return handleOpenSnackbar("Event hasn't started yet!!");
+            return handleOpenSnackbar("Event hasn't started yet!!", "error");
           } else if (message === "Student already timed out") {
-            return handleOpenSnackbar("Student already timed out!!");
+            return handleOpenSnackbar("Student already timed out!!", "error");
           }
           setIsTimeInModalVisible((prevState) => !prevState);
         },

@@ -49,10 +49,12 @@ const useUser = () => {
       }
     >;
     message: string;
+    severity?: "success" | "error";
   }>({
     open: false,
     Transition: Fade,
     message: "",
+    severity: "success",
   });
 
   const dispatch = useAppDispatch();
@@ -116,10 +118,10 @@ const useUser = () => {
         email: "",
       });
       updateModalVisibility("admin");
-      handleOpenSnackbar(result?.message);
+      handleOpenSnackbar(result?.message, "success");
       fetchUsers();
     } else {
-      handleOpenSnackbar("Event creation failed!!");
+      handleOpenSnackbar("Event creation failed!!", "error");
     }
   };
 
@@ -131,41 +133,39 @@ const useUser = () => {
       studentDetails.course,
     );
     console.log("result", result);
-    if (result?.status === 200) {
-      setStudentDetails({
-        name: "",
-        email: "",
-        department: "CTECH",
-        course: "",
-      });
-      updateModalVisibility("student");
-      handleOpenSnackbar(result?.message);
-      fetchUsers();
-    } else {
-      handleOpenSnackbar("Event creation failed!!");
+    if (result?.status !== 200) {
+      return handleOpenSnackbar(result?.data?.message, "error");
     }
+
+    setStudentDetails({
+      name: "",
+      email: "",
+      department: "CTECH",
+      course: "",
+    });
+    updateModalVisibility("student");
+    handleOpenSnackbar(result?.data?.message, "success");
+    fetchUsers();
   };
 
   const deleteUser = async (rowData: any) => {
-    console.log('RowData: ', rowData)
     const selectedUser = [...students, ...admin].filter((user: any) => user.email === rowData[0]);
-    console.log("users", selectedUser[0]);
     const result = await deleteUserById(selectedUser[0]._id);
-    console.log("users", selectedUser[0], result);
 
     if (result?.status !== 200) {
-      return handleOpenSnackbar("User deletion failed!!");
+      return handleOpenSnackbar("User deletion failed!!", "error");
     } 
 
-    handleOpenSnackbar(result?.data?.message);
+    handleOpenSnackbar(result?.data?.message, "success");
     fetchUsers();
   }
 
-  const handleOpenSnackbar = (message: string) => {
+  const handleOpenSnackbar = (message: string, severity: "success" | "error") => {
     return setSnackbarState((prevState) => ({
       ...prevState,
       open: true,
       message,
+      severity
     }));
   };
 

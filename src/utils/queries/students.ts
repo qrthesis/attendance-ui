@@ -13,12 +13,11 @@ export const createStudent = async (
       department,
       course,
     });
-    return {
-      message: res.data.message,
-      status: res.status,
-    };
+    return res
   } catch (error) {
-    return null;
+    console.log("ERROR", error)
+    //@ts-ignore
+    return error?.response;
   }
 };
 

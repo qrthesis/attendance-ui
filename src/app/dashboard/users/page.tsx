@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import Alert from '@mui/material/Alert';
 
 import BasicTable from "../../components/BasicTable";
 
@@ -40,7 +41,7 @@ const UsersPage: React.FC<any> = () => {
           user={state.savedUser}
           actions={{
             delete: {
-              user: handlers.deleteUser,
+              callback: handlers.deleteUser,
             },
           }}
         />
@@ -58,7 +59,7 @@ const UsersPage: React.FC<any> = () => {
           user={state.savedUser}
           actions={{
             delete: {
-              user: handlers.deleteUser,
+              callback: handlers.deleteUser,
             },
           }}
         />
@@ -79,11 +80,19 @@ const UsersPage: React.FC<any> = () => {
           }}
           open={state.snackbar.open}
           onClose={handlers.handleCloseSnackbar}
-          message={state.snackbar.message}
           TransitionComponent={state.snackbar.Transition}
           key={state.snackbar.Transition.name}
-          autoHideDuration={1200}
-        />
+          autoHideDuration={2000}
+        >
+          <Alert
+            onClose={handlers.handleCloseSnackbar}
+            severity={state.snackbar.severity}
+            variant="filled"
+            sx={{ width: '100%' }}
+          >
+            { state.snackbar.message }
+          </Alert>
+        </Snackbar>
       </Stack>
     </Container>
   );
