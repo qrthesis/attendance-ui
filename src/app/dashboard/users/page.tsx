@@ -9,7 +9,6 @@ import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 
 import BasicTable from "../../components/BasicTable";
 
-import useDashboard from "../useDashboard";
 import useUsers from "./useUsers";
 
 import CreateAdminModal from "./CreateAdminModal";
@@ -39,6 +38,11 @@ const UsersPage: React.FC<any> = () => {
           rowHeaders={["Email", "Name"]}
           rowData={handlers.formatTableData("admin")}
           user={state.savedUser}
+          actions={{
+            delete: {
+              user: handlers.deleteUser,
+            },
+          }}
         />
 
         <Button
@@ -52,6 +56,11 @@ const UsersPage: React.FC<any> = () => {
           rowHeaders={["Email", "Name", "Department", "Course", "Default Password"]}
           rowData={handlers.formatTableData("student")}
           user={state.savedUser}
+          actions={{
+            delete: {
+              user: handlers.deleteUser,
+            },
+          }}
         />
 
         <CreateStudentModal

@@ -15,5 +15,8 @@ export interface ITableProps {
     viewAttendance?: {
       callback: (rowData: any) => void;
     };
+    delete: {
+      user?: (rowData: any) => void;
+    }
   };
 }

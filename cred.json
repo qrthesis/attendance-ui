@@ -1,0 +1,15 @@
+{
+    "type": "service_account",
+    "project_id": "thesis-420319",
+    "private_key_id": "f3b4b8716821f1b36e31c09e8b5d0d9391f65620",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDFXFRxJ6mSWlOu\n6e96w0aq+CzhO+9PD4J9yXqOZnvmE9Zz811rwQvd3gcvV79KUKHF/YPmL7tg0Qan\nxHh68sdysQ+DzLIG2/fjb+wCmZfG0vJqToA0SsnW1C2zf+w92PtqrU1w40sAOTaX\n0xW98V6KOzNtPTe/QAJdYPjQ5dSQRSoMbz2BO1Lhplht/VdtZUi3Jh8q7+S3hpu2\nocPa+ytQC/xiRlyBnPFwpQHE1MbkRCLBO+P+kS9+pwlrNOFJS+8SWvx1hRqtE5Fd\n2duF0C2UKVmffcbuvxCLlJerxy80jEPS8ZYCeUTLzAmH9KAwYdO/+4lj9aOuewO7\n4IrOJK+fAgMBAAECggEAHerqfLdqeTPAI8Uf9xggX6J8tdgEED66+p55ju9Hhjp+\nSS1x0qJ8+LEY8xBLgH8gnDGGC8rd43ChoE+kLonHD5fPpkciuu91cGty93dDuXFu\nK2H4Wp+hC96LiakGrYl1ngI6Dwwlk8Rt24NgHwm2hHXc9zOkfmq8Rl4rhF89Yxu+\n8LuET34gkfB6IcAZiwSku2OBC9aRr964gQBPb9OeCp1sZbwbjRCs9RNjckhbUi4S\nAb/Sr+S+YJiZ4ZFVQRPjJHkm5QYfzsjUqG5KeqNnFYGvcPJxHdkq4OEWm3l5suF7\naeE5Zi6ZrNApFarKwLFie1pq4PrVb/EAidl0VY/UAQKBgQD/HxC1JL//uQZemJlq\nvPnLOzNl1zrtgJ+zY6NS6pYVcpEXvEtCzfSWb5E6gsmtn5D27i+sHeLbsJW8yMrg\nq90upgnRBRW/aMJFZUnFm6S0DgAX9qzOCF0t/rJd9HP4IX19fUfko5Nuq/QnFdmD\nI3SNN89zgLxF8ATHN6ZiS/ZxgQKBgQDGClaafku0C8WPv3sz+E8MYKCqkfBUvgVN\n9jT0qdBe/WC86wbrs2lKiTpzqCAeZBn3BWdKIQNxHKuSHmW0JB7C0aFyIDe1tSHU\nIf23EDCVgJNLav4Qs9FJ4VYGRJorCj+1uM2Uu0kz77HwYducBA8a2BmCVhtYCa1M\nsbv5drNxHwKBgQC4i5E7Z5UXd5Ea9onrwz1yfKWGYrW2vddIHag0P4tHgnNgVw2e\nCnuGIrhMOfWHiaiEZvHHMGs8/bSjNiBDey7pIqRxNZtwtWfqaQV/U0JGGOaKbx67\nfyNgNSBzhHQrJpavIuPRiV4JrYtUhqKsEQarbJa893+5m5DpRuEts8NWgQKBgDTm\nWg/WoJ4tbs5hFaXiNCtYPFKTvSDFyWDz3V1lZvWYtRiBp02alQuF8IkoZbv4fT8Q\nwHB6tRKn1+SmHgCqjVT47ikwFfGButGRatZVisTEnZPNtqP7hHI5sOLnvE625CHE\nhZWvGXS4GE3ftevM4cQH6Xh5S8COhS4xY8bVQEV9AoGBALLSM8zpwSHb4cBtDOhd\n29wuo9DS3SLkS5icY/mr+WcqqxPn4SidElOcvFuYPpqHgkaGrcMINLX9GxxRm53y\nA0LSwPVUnDuhZHtd4pk2mql7G0uRNjxlp9nSjNPvFLAysFwYI8agIWMOWnyhSxqJ\n6CCxqIVMbeAFsDiCWaUlmAd0\n-----END PRIVATE KEY-----\n",
+    "client_email": "qr-thesis@thesis-420319.iam.gserviceaccount.com",
+    "client_id": "111352677193534346253",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/qr-thesis%40thesis-420319.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com",
+    "bucket_name": "thesis-attendance-images"
+  }
+  

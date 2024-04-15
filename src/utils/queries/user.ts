@@ -16,3 +16,16 @@ export const resetPassword = async (
     return null;
   }
 };
+
+export const deleteUserById = async (id: string) => {
+  try {
+    const res = await axiosInstance.delete("/delete-user", {
+      params: {
+        userId: id
+      }
+    })
+        return res;
+  } catch (error) {
+    return null;
+  }
+}

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 
 import Fade from "@mui/material/Fade";
 import { TransitionProps } from "@mui/material/transitions";
 
 import { createAdmin, getAdmin } from "@/utils/queries/admin";
 import { createStudent, getStudents } from "@/utils/queries/students";
+import { deleteUserById } from "@/utils/queries/user";
+
 
 import { saveAdminUser, saveStudentUsers } from "@/utils/ducks/reducers/users";
 
@@ -144,6 +146,21 @@ const useUser = () => {
     }
   };
 
+  const deleteUser = async (rowData: any) => {
+    console.log('RowData: ', rowData)
+    const selectedUser = [...students, ...admin].filter((user: any) => user.email === rowData[0]);
+    console.log("users", selectedUser[0]);
+    const result = await deleteUserById(selectedUser[0]._id);
+    console.log("users", selectedUser[0], result);
+
+    if (result?.status !== 200) {
+      return handleOpenSnackbar("User deletion failed!!");
+    } 
+
+    handleOpenSnackbar(result?.data?.message);
+    fetchUsers();
+  }
+
   const handleOpenSnackbar = (message: string) => {
     return setSnackbarState((prevState) => ({
       ...prevState,
@@ -182,6 +199,7 @@ const useUser = () => {
       handleCloseSnackbar,
       formatTableData,
       updateStudentDetails,
+      deleteUser
     },
   };
 };

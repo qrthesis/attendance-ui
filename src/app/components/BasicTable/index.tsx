@@ -8,6 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Card from "@mui/material/Card";
 import TablePagination from "@mui/material/TablePagination";
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import IconButton from '@mui/material/IconButton';
+import SvgIcon from '@mui/material/SvgIcon';
+
 
 import { ITableProps } from "./types";
 
@@ -99,6 +104,30 @@ const BasicTable = ({
           </TableCell>
         </Fragment>
       );
+    }
+
+    if (user?.role === 'admin' && (tableKey === "student-user-table" || tableKey === "admin-user-table")) {
+     return (
+      <Fragment>
+        <TableCell
+          key={`${tableKey}-actions-delet-user`}
+          align="center"
+          sx={{
+          }}
+          onClick={() => actions?.viewAttendance?.callback?.(row)}
+        >
+          <DeleteIcon sx={{
+            cursor: "pointer",
+            ":hover": {
+              color: "red",
+              fontWeight: "bold",
+            },
+          }} 
+            onClick={() => actions?.delete?.user?.(row)}
+          />
+      </TableCell>
+      </Fragment>
+      ) 
     }
   };
 
