@@ -65,7 +65,6 @@ const CreateEventPage: React.FC<any> = () => {
     modal.timeOut.checkTimeOutStatus(selectedEvent._id);
 
     setSelectedEventId(selectedEvent._id);
-    // modal.timeOut.updateVisibility();
   };
 
   const viewAttendance = (row: any) => {

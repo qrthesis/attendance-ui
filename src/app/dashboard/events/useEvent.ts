@@ -205,7 +205,7 @@ const useEvent = () => {
           } else if (message === "Student already timed out") {
             return handleOpenSnackbar("Student already timed out!!", "error");
           }
-          setIsTimeInModalVisible((prevState) => !prevState);
+          setIsTimeOutModalVisible((prevState) => !prevState);
         },
       },
       viewAttendance: {
