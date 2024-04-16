@@ -33,7 +33,6 @@ const eventsSlice = createSlice({
       fetchedEvents.forEach((event: any) => {
         // = new Date(event.date);
 
-        console.log("EVENT ", dayjs.unix(event.timeIn).format("MM/DD/YYYY"));
         const eventDate = dayjs.unix(event.timeIn).format("MM/DD/YYYY");
 
         if (dayjs().isBefore(eventDate, "date")) {

@@ -26,13 +26,35 @@ const Header: React.FC<Props> = ({ window }) => {
   const [user, setUser] = useState<any>();
 
   const drawerWidth = 240;
-  const navItems = ["Users", "Events", "Logout"];
 
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+  ``;
+
+  const getNavBarItems = () => {
+    if (user?.role === "admin") {
+      return ["Users", "Events", "Logout"];
+    }
+
+    return ["Events", "Logout"];
+  };
+
+  const handleNavClick = (navItem: string) => {
+    if (navItem === "Users") {
+      router.push("/dashboard/users");
+    } else if (navItem === "Events") {
+      router.push("/dashboard/events");
+    } else {
+      localStorage.removeItem("user");
+      router.push("/logout");
+    }
   };
 
   const drawer = (
@@ -42,7 +64,7 @@ const Header: React.FC<Props> = ({ window }) => {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
+        {getNavBarItems().map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton
               sx={{ textAlign: "center" }}
@@ -56,28 +78,6 @@ const Header: React.FC<Props> = ({ window }) => {
     </Box>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-  ``;
-  const getNavBarItems = () => {
-    if (user?.role === "admin") {
-      return ["Users", "Events", "Logout"];
-    }
-
-    return ["Events", "Logout"];
-  };
-
-  const handleNavClick = (navItem: string) => {
-    console.log("Drawer nav click", navItem);
-    if (navItem === "Users") {
-      router.push("/dashboard/users");
-    } else if (navItem === "Events") {
-      router.push("/dashboard/events");
-    } else {
-      localStorage.removeItem("user");
-      router.push("/logout");
-    }
-  };
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user") ?? "{}";

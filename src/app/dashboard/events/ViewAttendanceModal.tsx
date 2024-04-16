@@ -52,8 +52,6 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
     });
   };
 
-  console.log("eventDetails", eventDetails);
-
   return (
     <Modal
       open={isVisible}

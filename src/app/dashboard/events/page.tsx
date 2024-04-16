@@ -52,13 +52,9 @@ const CreateEventPage: React.FC<any> = () => {
     const selectedEvent = events.data["inProgress"].find(
       (event) => event.name === row[0]
     );
-    console.log("timeIn", selectedEvent);
-
     modal.timeIn.checkTimeInStatus(selectedEvent._id);
 
     setSelectedEventId(selectedEvent._id);
-
-    // modal.timeIn.updateVisibility();
   };
 
   const timeOut = (row: any) => {
@@ -78,8 +74,6 @@ const CreateEventPage: React.FC<any> = () => {
     );
 
     const selectedEvent = mergedEvents.find((event) => event.name === row[0]);
-    console.log("viewAttendance", selectedEvent);
-
     modal.viewAttendance.fetchAttendance(selectedEvent._id);
 
     modal.viewAttendance.updateVisibility();

@@ -99,11 +99,9 @@ const useUser = () => {
   const fetchUsers = async () => {
     const adminUsers = await getAdmin();
     dispatch(saveAdminUser(adminUsers));
-    console.log(adminUsers);
 
     const studentUsers = await getStudents();
     dispatch(saveStudentUsers(studentUsers));
-    console.log(studentUsers);
   };
 
   const addAdmin = async () => {
@@ -111,7 +109,6 @@ const useUser = () => {
       adminDetails.name,
       adminDetails.email,
     );
-    console.log("result", result);
     if (result?.status === 200) {
       setAdminDetails({
         name: "",
@@ -132,7 +129,6 @@ const useUser = () => {
       studentDetails.department,
       studentDetails.course,
     );
-    console.log("result", result);
     if (result?.status !== 200) {
       return handleOpenSnackbar(result?.data?.message, "error");
     }

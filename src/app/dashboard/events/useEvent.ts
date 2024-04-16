@@ -76,7 +76,6 @@ const useEvent = () => {
   };
 
   const handleCreateEventFieldChange = (key: string, value: any) => {
-    console.log(key, value);
     setCreateEventFields((prevState) => ({
       ...prevState,
       [key]: value,
@@ -107,12 +106,8 @@ const useEvent = () => {
   };
 
   const deleteEvent = async (rowData: any) => {
-
     const selectedEvent = [...events.upcoming, ...events.completed, ...events.inProgress].filter((event: any) => event.name === rowData[0]);
-    console.log('RowData: ', selectedEvent)
-
     const result = await deleteEventById(selectedEvent[0]._id);
-    console.log("users", selectedEvent[0], result);
 
     if (result?.status !== 200) {
       return handleOpenSnackbar("User deletion failed!!", "error");
@@ -127,13 +122,11 @@ const useEvent = () => {
     const events = await getEvents();
 
     dispatch(saveEvents(events));
-    console.log(events);
   };
 
   const fetchAttendance = async (eventId: string) => {
     const attendance = await getAttendance(eventId);
     dispatch(saveAttendance(attendance));
-    console.log(attendance);
   };
 
   const handleResetPassword = async (

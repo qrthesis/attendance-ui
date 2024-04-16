@@ -21,7 +21,6 @@ export const createAdmin = async (
 export const getAdmin = async () => {
   try {
     const res = await axiosInstance.get("/get-admins");
-    console.log("getAdmin", res);
     return res.data.admins;
   } catch (error) {
     return [];

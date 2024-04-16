@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
               fullWidth
-              type={isPasswordVisible ? 'password' : 'text'}
+              type={!isPasswordVisible ? 'password' : 'text'}
               id="password"
               label="Password"
               value={password}
@@ -60,10 +60,10 @@ const LoginPage: React.FC = () => {
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={() => setIsPasswordVisible(prevState => !prevState)}
+                    onClick={() =>  setIsPasswordVisible(prevState => !prevState)}
                     edge="end"
                   >
-                    {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
+                    {!isPasswordVisible ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               }

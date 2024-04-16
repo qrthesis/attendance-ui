@@ -15,7 +15,6 @@ export const createStudent = async (
     });
     return res
   } catch (error) {
-    console.log("ERROR", error)
     //@ts-ignore
     return error?.response;
   }

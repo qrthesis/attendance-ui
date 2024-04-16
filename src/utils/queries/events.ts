@@ -25,7 +25,6 @@ export const createEvent = async (
 export const getEvents = async () => {
   try {
     const res = await axiosInstance.get("/get-events");
-    console.log("DATA ", res);
     return res.data.data;
   } catch (error) {
     return [];
@@ -33,7 +32,6 @@ export const getEvents = async () => {
 };
 
 export const getStudentEvents = async (studentId: string) => {
-  console.log("studentId", studentId);
 };
 
 export const getTimeInStatus = async (eventId: string, email: string) => {

@@ -27,7 +27,6 @@ const TimeInModal: React.FC<ITimeInModalProps> = ({
     return null;
   }
 
-  console.log("user", `${user}!${eventId}`.length);
   const timeInModalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
