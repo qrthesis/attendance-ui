@@ -18,11 +18,13 @@ interface IStudentUser {
 interface IUsersState {
   admin: Array<IAdminUser>;
   students: Array<IStudentUser>;
+  isFetching: boolean;
 }
 
 const initialState: IUsersState = {
   admin: [],
   students: [],
+  isFetching: false,
 };
 
 const usersSlice = createSlice({
@@ -41,13 +43,31 @@ const usersSlice = createSlice({
         students: action.payload,
       };
     },
+    saveUsers: (state, action) => {
+      return {
+        ...state,
+        admin: action.payload.admin,
+        students: action.payload.students,
+      };
+    },
+    updateFetchingState: (state, action) => {
+      return {
+        ...state,
+        isFetching: action.payload,
+      };
+    },
     resetState: (state) => ({
       ...initialState,
     }),
   },
 });
 
-export const { saveAdminUser, saveStudentUsers, resetState } =
-  usersSlice.actions;
+export const {
+  saveAdminUser,
+  saveStudentUsers,
+  resetState,
+  saveUsers,
+  updateFetchingState,
+} = usersSlice.actions;
 
 export default usersSlice.reducer;

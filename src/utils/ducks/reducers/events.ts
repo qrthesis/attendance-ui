@@ -1,5 +1,6 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
+import { stat } from "fs";
 
 interface IEventsState {
   events: {
@@ -8,6 +9,10 @@ interface IEventsState {
     inProgress: Array<any>;
   };
   attendance: Array<any>;
+  isFetching: {
+    events: boolean;
+    attendance: boolean;
+  };
 }
 
 const initialState: IEventsState = {
@@ -17,6 +22,10 @@ const initialState: IEventsState = {
     inProgress: [],
   },
   attendance: [],
+  isFetching: {
+    events: false,
+    attendance: false,
+  },
 };
 
 const eventsSlice = createSlice({
@@ -59,12 +68,23 @@ const eventsSlice = createSlice({
         attendance: action.payload,
       };
     },
+    updateFetchingState: (state, action) => {
+      const { key, value } = action.payload;
+      return {
+        ...state,
+        isFetching: {
+          ...state.isFetching,
+          [key]: value,
+        },
+      };
+    },
     resetState: (state) => ({
       ...initialState,
     }),
   },
 });
 
-export const { saveEvents, resetState, saveAttendance } = eventsSlice.actions;
+export const { saveEvents, resetState, saveAttendance, updateFetchingState } =
+  eventsSlice.actions;
 
 export default eventsSlice.reducer;

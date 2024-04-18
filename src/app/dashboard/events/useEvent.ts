@@ -4,14 +4,17 @@ import { useAppDispatch } from "@/utils/ducks/store";
 import {
   createEvent,
   getEvents,
-  getStudentEvents,
   getTimeInStatus,
   getTimeOutStatus,
   getAttendance,
-  deleteEventById
+  deleteEventById,
 } from "@/utils/queries/events";
 import { resetPassword } from "@/utils/queries/user";
-import { saveEvents, saveAttendance } from "@/utils/ducks/reducers/events";
+import {
+  saveEvents,
+  saveAttendance,
+  updateFetchingState,
+} from "@/utils/ducks/reducers/events";
 import { useAppSelector } from "@/utils/ducks/store";
 
 import dayjs from "dayjs";
@@ -23,7 +26,9 @@ const useEvent = () => {
   const dispatch = useAppDispatch();
   const [user, setUser] = useState<any>();
 
-  const { events, attendance } = useAppSelector((state) => state.eventsSlice);
+  const { events, attendance, isFetching } = useAppSelector(
+    (state) => state.eventsSlice
+  );
 
   const [isCreateEventModalVisible, setIsCreateModalVisible] =
     useState<boolean>(false);
@@ -58,12 +63,15 @@ const useEvent = () => {
     severity: "success",
   });
 
-  const handleOpenSnackbar = (message: string, severity: "success" | "error") => {
+  const handleOpenSnackbar = (
+    message: string,
+    severity: "success" | "error"
+  ) => {
     return setSnackbarState((prevState) => ({
       ...prevState,
       open: true,
       message,
-      severity
+      severity,
     }));
   };
 
@@ -106,27 +114,59 @@ const useEvent = () => {
   };
 
   const deleteEvent = async (rowData: any) => {
-    const selectedEvent = [...events.upcoming, ...events.completed, ...events.inProgress].filter((event: any) => event.name === rowData[0]);
+    const selectedEvent = [
+      ...events.upcoming,
+      ...events.completed,
+      ...events.inProgress,
+    ].filter((event: any) => event.name === rowData[0]);
     const result = await deleteEventById(selectedEvent[0]._id);
 
     if (result?.status !== 200) {
       return handleOpenSnackbar("User deletion failed!!", "error");
-    } 
+    }
 
     handleOpenSnackbar(result?.data?.message, "success");
     fetchEvents();
-  }
-
+  };
 
   const fetchEvents = async () => {
     const events = await getEvents();
 
+    dispatch(
+      updateFetchingState({
+        key: "events",
+        value: true,
+      })
+    );
     dispatch(saveEvents(events));
+    setTimeout(() => {
+      dispatch(
+        updateFetchingState({
+          key: "events",
+          value: false,
+        })
+      );
+    }, 1500);
   };
 
   const fetchAttendance = async (eventId: string) => {
-    const attendance = await getAttendance(eventId);
-    dispatch(saveAttendance(attendance));
+    const fetchedAttendance = await getAttendance(eventId);
+    dispatch(
+      updateFetchingState({
+        key: "attendance",
+        value: true,
+      })
+    );
+
+    dispatch(saveAttendance(fetchedAttendance));
+    setTimeout(() => {
+      dispatch(
+        updateFetchingState({
+          key: "attendance",
+          value: false,
+        })
+      );
+    }, 2000);
   };
 
   const handleResetPassword = async (
@@ -179,7 +219,8 @@ const useEvent = () => {
 
           if (message === "Event hasn't started yet") {
             return handleOpenSnackbar(
-              "Too early to time in! Event hasn't started yet", "error"
+              "Too early to time in! Event hasn't started yet",
+              "error"
             );
           }
           setIsTimeInModalVisible((prevState) => !prevState);
@@ -194,11 +235,13 @@ const useEvent = () => {
 
           if (message === "Too early to time out!!") {
             return handleOpenSnackbar(
-              "Too early to time out!! Event hasn't ended yet", "error"
+              "Too early to time out!! Event hasn't ended yet",
+              "error"
             );
           } else if (message === "Student hasn't time in yet") {
             return handleOpenSnackbar(
-              "Student hasn't time in yet!!Time in first!!", "error"
+              "Student hasn't time in yet!!Time in first!!",
+              "error"
             );
           } else if (message === "Event hasn't started yet") {
             return handleOpenSnackbar("Event hasn't started yet!!", "error");
@@ -230,11 +273,15 @@ const useEvent = () => {
       data: {
         ...events,
       },
+      isFetching: isFetching.events,
     },
-    attendance,
+    attendance: {
+      data: attendance,
+      isFetching: isFetching.attendance,
+    },
     handleResetPassword,
     user,
-    deleteEvent
+    deleteEvent,
   };
 };
 

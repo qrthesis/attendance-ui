@@ -20,4 +20,5 @@ export interface ITableProps {
       callback?: (rowData: any) => void;
     };
   };
+  isFetching?: boolean;
 }

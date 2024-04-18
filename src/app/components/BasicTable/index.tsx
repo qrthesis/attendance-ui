@@ -19,6 +19,7 @@ const BasicTable = ({
   rowData,
   user,
   actions,
+  isFetching,
 }: ITableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -178,6 +179,22 @@ const BasicTable = ({
   };
 
   const renderTableBody = () => {
+    if (isFetching) {
+      return (
+        <TableRow key={`${tableKey}-skeleton-row`}>
+          <TableCell
+            key={`${tableKey}-skeleton-cell`}
+            align="center"
+            colSpan={rowHeaders.length}
+          >
+            <Skeleton />
+            <Skeleton animation="wave" />
+            <Skeleton animation={false} />
+          </TableCell>
+        </TableRow>
+      );
+    }
+
     return rowData && rowData.length! > 0 ? (
       rowData
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

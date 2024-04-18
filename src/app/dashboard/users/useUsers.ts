@@ -5,9 +5,9 @@ import { TransitionProps } from "@mui/material/transitions";
 
 import { createAdmin, getAdmin } from "@/utils/queries/admin";
 import { createStudent, getStudents } from "@/utils/queries/students";
-import { deleteUserById } from "@/utils/queries/user";
+import { deleteUserById, getUsers } from "@/utils/queries/user";
 
-import { saveAdminUser, saveStudentUsers } from "@/utils/ducks/reducers/users";
+import { saveUsers, updateFetchingState } from "@/utils/ducks/reducers/users";
 
 import { useAppDispatch } from "@/utils/ducks/store";
 import { useAppSelector } from "@/utils/ducks/store";
@@ -15,7 +15,9 @@ import { useAppSelector } from "@/utils/ducks/store";
 import { IAdminUser, IStudentUser } from "./types";
 
 const useUser = () => {
-  const { admin, students } = useAppSelector((state) => state.usersSlice);
+  const { admin, students, isFetching } = useAppSelector(
+    (state) => state.usersSlice
+  );
   const { user: loggedInUser } = useAppSelector((state) => state.authSlice);
 
   const [savedUser, setSavedUser] = useState<any>();
@@ -102,11 +104,19 @@ const useUser = () => {
   };
 
   const fetchUsers = async () => {
-    const adminUsers = await getAdmin();
-    dispatch(saveAdminUser(adminUsers));
+    const loggedInUserA: any = JSON.parse(localStorage.getItem("user")!);
+    console.log("user", loggedInUserA);
+    dispatch(updateFetchingState(true));
 
-    const studentUsers = await getStudents();
-    dispatch(saveStudentUsers(studentUsers));
+    const users = await getUsers(loggedInUserA.email!);
+    console.log(users);
+    dispatch(
+      saveUsers({
+        admin: users.admins,
+        students: users.students,
+      })
+    );
+    setTimeout(() => dispatch(updateFetchingState(false)), 1500);
   };
 
   const addAdmin = async () => {
@@ -193,6 +203,7 @@ const useUser = () => {
       snackbar: snackbarState,
       studentDetails,
       savedUser,
+      isFetching,
     },
     handlers: {
       updateAdminDetails,

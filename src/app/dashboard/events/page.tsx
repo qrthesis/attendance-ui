@@ -32,7 +32,7 @@ const CreateEventPage: React.FC<any> = () => {
     handleResetPassword,
     user,
     attendance,
-    deleteEvent
+    deleteEvent,
   } = useEvent();
 
   const [selectedEventId, setSelectedEventId] = React.useState<string>("");
@@ -111,8 +111,9 @@ const CreateEventPage: React.FC<any> = () => {
               actions={{
                 delete: {
                   callback: deleteEvent,
-                }
+                },
               }}
+              isFetching={events.isFetching}
             />
           </AccordionDetails>
         </Accordion>
@@ -151,8 +152,9 @@ const CreateEventPage: React.FC<any> = () => {
                 },
                 delete: {
                   callback: deleteEvent,
-                }
+                },
               }}
+              isFetching={events.isFetching}
             />
           </AccordionDetails>
         </Accordion>
@@ -182,8 +184,9 @@ const CreateEventPage: React.FC<any> = () => {
                 },
                 delete: {
                   callback: deleteEvent,
-                }
+                },
               }}
+              isFetching={events.isFetching}
             />
           </AccordionDetails>
         </Accordion>
@@ -225,7 +228,8 @@ const CreateEventPage: React.FC<any> = () => {
         isVisible={modal.viewAttendance.isVisible}
         updateVisibility={modal.viewAttendance.updateVisibility}
         eventDetails={selectedEvent}
-        attendance={attendance}
+        attendance={attendance.data}
+        isFetching={attendance.isFetching}
       />
 
       <Snackbar

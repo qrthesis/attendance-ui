@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 
 import BasicTable from "../../components/BasicTable";
 
@@ -54,7 +54,13 @@ const UsersPage: React.FC<any> = () => {
         </Button>
         <BasicTable
           tableKey="student-user-table"
-          rowHeaders={["Email", "Name", "Department", "Course", "Default Password"]}
+          rowHeaders={[
+            "Email",
+            "Name",
+            "Department",
+            "Course",
+            "Default Password",
+          ]}
           rowData={handlers.formatTableData("student")}
           user={state.savedUser}
           actions={{
@@ -62,6 +68,7 @@ const UsersPage: React.FC<any> = () => {
               callback: handlers.deleteUser,
             },
           }}
+          isFetching={state.isFetching}
         />
 
         <CreateStudentModal
@@ -88,9 +95,9 @@ const UsersPage: React.FC<any> = () => {
             onClose={handlers.handleCloseSnackbar}
             severity={state.snackbar.severity}
             variant="filled"
-            sx={{ width: '100%' }}
+            sx={{ width: "100%" }}
           >
-            { state.snackbar.message }
+            {state.snackbar.message}
           </Alert>
         </Snackbar>
       </Stack>

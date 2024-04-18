@@ -1,9 +1,6 @@
 import axiosInstance from "./axios.config";
 
-export const createAdmin = async (
-  name: string,
-  email: string,
-) => {
+export const createAdmin = async (name: string, email: string) => {
   try {
     const res = await axiosInstance.post("/create-admin", {
       name,

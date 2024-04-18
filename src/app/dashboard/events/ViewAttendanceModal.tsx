@@ -13,12 +13,14 @@ import BasicTable from "../../components/BasicTable";
 import dayjs from "dayjs";
 
 import BasicSelect from "@/app/components/BasicSelect";
+import { useAppSelector } from "@/utils/ducks/store";
 
 interface IViewAttendanceModalProps {
   isVisible: boolean;
   updateVisibility: () => void;
   eventDetails: any;
   attendance: Array<any>;
+  isFetching: boolean;
 }
 
 const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
@@ -26,6 +28,7 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
   updateVisibility,
   eventDetails,
   attendance,
+  isFetching,
 }) => {
   const departments = ["CEA", "CTE", "CAS", "CBM", "CTECH"];
 
@@ -63,8 +66,6 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
         (attendance) => attendance.department === printedDepartment
       );
     } else {
-      console.log("printedDepartment", printedDepartment);
-
       filteredAttendance = attendance.filter(
         (attendance) => attendance.department === filter.department
       );
@@ -89,6 +90,8 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
     });
     updateVisibility();
   };
+
+  console.log("attendance", attendance);
 
   const generatePDF = () => {
     //Loop over the departs to print the attendance
@@ -126,7 +129,7 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
     } else {
       setTableData([]);
     }
-  }, [filter]);
+  }, [filter, attendance]);
 
   return (
     <Modal
@@ -172,6 +175,7 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
                   "Time out",
                 ]}
                 rowData={tableData}
+                isFetching={isFetching}
               />
             </Stack>
           ) : (

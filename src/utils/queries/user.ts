@@ -7,11 +7,11 @@ export const resetPassword = async (
 ) => {
   try {
     const res = await axiosInstance.post("/reset-password", {
-        email,
-        newPassword: btoa(newPassword),
-        oldPassword: btoa(oldPassword)
-    })
-        return res;
+      email,
+      newPassword: btoa(newPassword),
+      oldPassword: btoa(oldPassword),
+    });
+    return res;
   } catch (error) {
     return null;
   }
@@ -21,11 +21,24 @@ export const deleteUserById = async (id: string) => {
   try {
     const res = await axiosInstance.delete("/delete-user", {
       params: {
-        userId: id
-      }
-    })
-        return res;
+        userId: id,
+      },
+    });
+    return res;
   } catch (error) {
     return null;
   }
-}
+};
+
+export const getUsers = async (email: string) => {
+  try {
+    const res = await axiosInstance.get("/get-users", {
+      params: {
+        requesterEmail: email,
+      },
+    });
+    return res.data.users;
+  } catch (error) {
+    return [];
+  }
+};
