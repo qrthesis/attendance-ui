@@ -7,6 +7,7 @@ import {
   getTimeInStatus,
   getTimeOutStatus,
   getAttendance,
+  getStudentAttendance,
   deleteEventById,
 } from "@/utils/queries/events";
 import { resetPassword } from "@/utils/queries/user";
@@ -169,6 +170,29 @@ const useEvent = () => {
     }, 2000);
   };
 
+  const fetchStudentAttendance = async (
+    eventId: string,
+    studentEmail: string
+  ) => {
+    const fetchedAttendance = await getStudentAttendance(eventId, studentEmail);
+    dispatch(
+      updateFetchingState({
+        key: "attendance",
+        value: true,
+      })
+    );
+
+    dispatch(saveAttendance(fetchedAttendance));
+    setTimeout(() => {
+      dispatch(
+        updateFetchingState({
+          key: "attendance",
+          value: false,
+        })
+      );
+    }, 2000);
+  };
+
   const handleResetPassword = async (
     newPassword: string,
     oldPassword: string
@@ -256,6 +280,7 @@ const useEvent = () => {
         updateVisibility: () =>
           setIsViewAttendanceModalVisible((prevState) => !prevState),
         fetchAttendance,
+        fetchStudentAttendance,
       },
     },
     fields: {

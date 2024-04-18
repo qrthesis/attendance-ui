@@ -13,7 +13,6 @@ import BasicTable from "../../components/BasicTable";
 import dayjs from "dayjs";
 
 import BasicSelect from "@/app/components/BasicSelect";
-import { useAppSelector } from "@/utils/ducks/store";
 
 interface IViewAttendanceModalProps {
   isVisible: boolean;
@@ -21,6 +20,7 @@ interface IViewAttendanceModalProps {
   eventDetails: any;
   attendance: Array<any>;
   isFetching: boolean;
+  user: any;
 }
 
 const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
@@ -29,6 +29,7 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
   eventDetails,
   attendance,
   isFetching,
+  user,
 }) => {
   const departments = ["CEA", "CTE", "CAS", "CBM", "CTECH"];
 
@@ -59,24 +60,33 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
   };
 
   const formatTableData = (printedDepartment: string) => {
-    let filteredAttendance: any = [];
+    if (user?.role === "admin") {
+      let filteredAttendance: any = [];
 
-    if (printedDepartment !== "") {
-      filteredAttendance = attendance.filter(
-        (attendance) => attendance.department === printedDepartment
-      );
-    } else {
-      filteredAttendance = attendance.filter(
-        (attendance) => attendance.department === filter.department
-      );
+      if (printedDepartment !== "") {
+        filteredAttendance = attendance.filter(
+          (attendance) => attendance.department === printedDepartment
+        );
+      } else {
+        filteredAttendance = attendance.filter(
+          (attendance) => attendance.department === filter.department
+        );
+      }
+
+      return filteredAttendance.map((attend: any) => {
+        return [
+          attend.department,
+          attend.course,
+          attend.email,
+          attend.name,
+          dayjs.unix(attend.timeIn).format("MM/DD/YYYY hh:mm A"),
+          dayjs.unix(attend.timeOut).format("MM/DD/YYYY hh:mm A"),
+        ];
+      });
     }
 
-    return filteredAttendance.map((attend: any) => {
+    return attendance.map((attend: any) => {
       return [
-        attend.department,
-        attend.course,
-        attend.email,
-        attend.name,
         dayjs.unix(attend.timeIn).format("MM/DD/YYYY hh:mm A"),
         dayjs.unix(attend.timeOut).format("MM/DD/YYYY hh:mm A"),
       ];
@@ -91,11 +101,7 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
     updateVisibility();
   };
 
-  console.log("attendance", attendance);
-
   const generatePDF = () => {
-    //Loop over the departs to print the attendance
-
     departments.forEach((department) => {
       const tableData = formatTableData(department);
 
@@ -110,6 +116,54 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
 
       doc.save(`attendance-${department}-${eventDetails.name}.pdf`);
     });
+  };
+
+  const renderDataTable = () => {
+    if (user?.role === "admin") {
+      return (
+        <Stack spacing={3} direction="column">
+          <BasicSelect
+            dataType="dept"
+            value={filter.department}
+            handleFieldChange={updateFilter}
+          />
+
+          <TextField
+            fullWidth
+            type="email"
+            id="email"
+            label="Filter by email"
+            variant="outlined"
+            value={filter.email}
+            onChange={(e) => updateFilter("email", e.target.value)}
+          />
+          <BasicTable
+            tableKey="view-attendance-table"
+            rowHeaders={[
+              "Department",
+              "Course",
+              "Email",
+              "Name",
+              "Time in",
+              "Time out",
+            ]}
+            rowData={tableData}
+            isFetching={isFetching}
+          />
+        </Stack>
+      );
+    }
+
+    return (
+      <Stack spacing={3} direction="column">
+        <BasicTable
+          tableKey="view-attendance-table"
+          rowHeaders={["Time in", "Time out"]}
+          rowData={tableData}
+          isFetching={isFetching}
+        />
+      </Stack>
+    );
   };
 
   useEffect(() => {
@@ -148,47 +202,20 @@ const ViewAttendanceModal: React.FC<IViewAttendanceModalProps> = ({
             {`Event Name: ${eventDetails?.name}`}
           </Typography>
           {attendance.length > 0 ? (
-            <Stack spacing={3} direction="column">
-              <BasicSelect
-                dataType="dept"
-                value={filter.department}
-                handleFieldChange={updateFilter}
-              />
-
-              <TextField
-                fullWidth
-                type="email"
-                id="email"
-                label="Filter by email"
-                variant="outlined"
-                value={filter.email}
-                onChange={(e) => updateFilter("email", e.target.value)}
-              />
-              <BasicTable
-                tableKey="view-attendance-table"
-                rowHeaders={[
-                  "Department",
-                  "Course",
-                  "Email",
-                  "Name",
-                  "Time in",
-                  "Time out",
-                ]}
-                rowData={tableData}
-                isFetching={isFetching}
-              />
-            </Stack>
+            renderDataTable()
           ) : (
             <Typography variant="h6">
               No attendance for the event yet
             </Typography>
           )}
 
-          <Box>
-            <Button onClick={generatePDF} variant="contained">
-              Export to pdf
-            </Button>
-          </Box>
+          {user?.role === "admin" && (
+            <Box>
+              <Button onClick={generatePDF} variant="contained">
+                Export to pdf
+              </Button>
+            </Box>
+          )}
         </Stack>
       </Box>
     </Modal>

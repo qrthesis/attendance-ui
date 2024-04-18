@@ -73,7 +73,15 @@ const CreateEventPage: React.FC<any> = () => {
     );
 
     const selectedEvent = mergedEvents.find((event) => event.name === row[0]);
-    modal.viewAttendance.fetchAttendance(selectedEvent._id);
+
+    if (user?.role === "admin") {
+      modal.viewAttendance.fetchAttendance(selectedEvent._id);
+    } else {
+      modal.viewAttendance.fetchStudentAttendance(
+        selectedEvent._id,
+        user?.email
+      );
+    }
 
     modal.viewAttendance.updateVisibility();
     setSelectedEvent(selectedEvent);
@@ -230,6 +238,7 @@ const CreateEventPage: React.FC<any> = () => {
         eventDetails={selectedEvent}
         attendance={attendance.data}
         isFetching={attendance.isFetching}
+        user={user}
       />
 
       <Snackbar

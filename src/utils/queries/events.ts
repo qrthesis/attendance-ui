@@ -31,8 +31,7 @@ export const getEvents = async () => {
   }
 };
 
-export const getStudentEvents = async (studentId: string) => {
-};
+export const getStudentEvents = async (studentId: string) => {};
 
 export const getTimeInStatus = async (eventId: string, email: string) => {
   try {
@@ -82,16 +81,33 @@ export const getAttendance = async (eventId: string) => {
   }
 };
 
+export const getStudentAttendance = async (
+  eventId: string,
+  studentEmail: string
+) => {
+  try {
+    const res = await axiosInstance.get("/get-student-attendance", {
+      params: {
+        eventId,
+        studentEmail,
+      },
+    });
+
+    return res.data.attendance;
+  } catch (error) {
+    return null;
+  }
+};
 
 export const deleteEventById = async (id: string) => {
   try {
     const res = await axiosInstance.delete("/delete-event", {
       params: {
-        eventId: id
-      }
-    })
-        return res;
+        eventId: id,
+      },
+    });
+    return res;
   } catch (error) {
     return null;
   }
-}
+};
