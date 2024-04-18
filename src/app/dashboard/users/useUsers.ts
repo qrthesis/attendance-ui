@@ -7,7 +7,6 @@ import { createAdmin, getAdmin } from "@/utils/queries/admin";
 import { createStudent, getStudents } from "@/utils/queries/students";
 import { deleteUserById } from "@/utils/queries/user";
 
-
 import { saveAdminUser, saveStudentUsers } from "@/utils/ducks/reducers/users";
 
 import { useAppDispatch } from "@/utils/ducks/store";
@@ -18,7 +17,7 @@ import { IAdminUser, IStudentUser } from "./types";
 const useUser = () => {
   const { admin, students } = useAppSelector((state) => state.usersSlice);
   const { user: loggedInUser } = useAppSelector((state) => state.authSlice);
-  
+
   const [savedUser, setSavedUser] = useState<any>();
 
   const [adminDetails, setAdminDetails] = useState<IAdminUser>({
@@ -70,7 +69,7 @@ const useUser = () => {
         student.name,
         student.department,
         student.course,
-        student.password ?  atob(student.password): "",
+        student.password ? atob(student.password) : "",
       ]);
     }
   };
@@ -90,6 +89,12 @@ const useUser = () => {
   };
 
   const updateModalVisibility = (userType: "admin" | "student") => {
+    setStudentDetails({
+      name: "",
+      email: "",
+      department: "CTECH",
+      course: "",
+    });
     return setModalVisibility((prevState: any) => ({
       ...prevState,
       [userType]: !prevState[userType],
@@ -105,10 +110,7 @@ const useUser = () => {
   };
 
   const addAdmin = async () => {
-    const result = await createAdmin(
-      adminDetails.name,
-      adminDetails.email,
-    );
+    const result = await createAdmin(adminDetails.name, adminDetails.email);
     if (result?.status === 200) {
       setAdminDetails({
         name: "",
@@ -127,7 +129,7 @@ const useUser = () => {
       studentDetails.name,
       studentDetails.email,
       studentDetails.department,
-      studentDetails.course,
+      studentDetails.course
     );
     if (result?.status !== 200) {
       return handleOpenSnackbar(result?.data?.message, "error");
@@ -145,23 +147,28 @@ const useUser = () => {
   };
 
   const deleteUser = async (rowData: any) => {
-    const selectedUser = [...students, ...admin].filter((user: any) => user.email === rowData[0]);
+    const selectedUser = [...students, ...admin].filter(
+      (user: any) => user.email === rowData[0]
+    );
     const result = await deleteUserById(selectedUser[0]._id);
 
     if (result?.status !== 200) {
       return handleOpenSnackbar("User deletion failed!!", "error");
-    } 
+    }
 
     handleOpenSnackbar(result?.data?.message, "success");
     fetchUsers();
-  }
+  };
 
-  const handleOpenSnackbar = (message: string, severity: "success" | "error") => {
+  const handleOpenSnackbar = (
+    message: string,
+    severity: "success" | "error"
+  ) => {
     return setSnackbarState((prevState) => ({
       ...prevState,
       open: true,
       message,
-      severity
+      severity,
     }));
   };
 
@@ -175,7 +182,7 @@ const useUser = () => {
 
   useEffect(() => {
     const loggedInUser: any = JSON.parse(localStorage.getItem("user")!);
-    setSavedUser(loggedInUser)
+    setSavedUser(loggedInUser);
     fetchUsers();
   }, []);
 
@@ -195,7 +202,7 @@ const useUser = () => {
       handleCloseSnackbar,
       formatTableData,
       updateStudentDetails,
-      deleteUser
+      deleteUser,
     },
   };
 };

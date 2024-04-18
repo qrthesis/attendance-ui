@@ -3,6 +3,7 @@ export interface ITableProps {
   rowHeaders: Array<string>;
   rowData: any;
   user?: any;
+  isLoading?: boolean;
   actions?: {
     timeIn?: {
       callback: (rowData: any) => void;
@@ -17,6 +18,6 @@ export interface ITableProps {
     };
     delete: {
       callback?: (rowData: any) => void;
-    }
+    };
   };
 }

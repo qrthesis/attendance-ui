@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,11 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Card from "@mui/material/Card";
 import TablePagination from "@mui/material/TablePagination";
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import IconButton from '@mui/material/IconButton';
-import SvgIcon from '@mui/material/SvgIcon';
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import Skeleton from "@mui/material/Skeleton";
 
 import { ITableProps } from "./types";
 
@@ -23,6 +20,9 @@ const BasicTable = ({
   user,
   actions,
 }: ITableProps) => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const renderRowHeaders = () => {
     return rowHeaders.map((header: string, index: number) => {
       return (
@@ -33,6 +33,15 @@ const BasicTable = ({
         </Fragment>
       );
     });
+  };
+
+  const handleChangePage = (event: any, newPage: any) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: any) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const renderRowData = (row: any) => {
@@ -124,47 +133,76 @@ const BasicTable = ({
           >
             View Attendance
           </TableCell>
-          <TableCell
-          key={`${tableKey}-actions-delete-user`}
-          align="center"
-        >
-          <DeleteIcon sx={{
-            cursor: "pointer",
-            ":hover": {
-              color: "red",
-              fontWeight: "bold",
-            },
-          }} 
-            onClick={() => actions?.delete?.callback?.(row)}
-          />
-        </TableCell>
+          <TableCell key={`${tableKey}-actions-delete-user`} align="center">
+            <DeleteIcon
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  color: "red",
+                  fontWeight: "bold",
+                },
+              }}
+              onClick={() => actions?.delete?.callback?.(row)}
+            />
+          </TableCell>
         </Fragment>
       );
     }
 
-    if (user?.role === 'admin' && (tableKey === "student-user-table" || tableKey === "admin-user-table")) {
-     return (
-      <Fragment>
-        <TableCell
-          key={`${tableKey}-actions-delet-user`}
-          align="center"
-          sx={{
-          }}
-          onClick={() => actions?.viewAttendance?.callback?.(row)}
-        >
-          <DeleteIcon sx={{
-            cursor: "pointer",
-            ":hover": {
-              color: "red",
-              fontWeight: "bold",
-            },
-          }} 
-            onClick={() => actions?.delete?.callback?.(row)}
-          />
-        </TableCell>
-      </Fragment>
-      ) 
+    if (
+      user?.role === "admin" &&
+      (tableKey === "student-user-table" || tableKey === "admin-user-table")
+    ) {
+      return (
+        <Fragment>
+          <TableCell
+            key={`${tableKey}-actions-delet-user`}
+            align="center"
+            sx={{}}
+            onClick={() => actions?.viewAttendance?.callback?.(row)}
+          >
+            <DeleteIcon
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  color: "red",
+                  fontWeight: "bold",
+                },
+              }}
+              onClick={() => actions?.delete?.callback?.(row)}
+            />
+          </TableCell>
+        </Fragment>
+      );
     }
+  };
+
+  const renderTableBody = () => {
+    return rowData && rowData.length! > 0 ? (
+      rowData
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((row: any, index: number) => (
+          <Fragment key={`${tableKey}-}-table-body-row-${index}`}>
+            <TableRow
+              key={`${row}-${index}`}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              {renderRowData(row)}
+              {renderActions(row)}
+            </TableRow>
+          </Fragment>
+        ))
+    ) : (
+      <TableRow key={`${tableKey}-empty-row`}>
+        <TableCell
+          key={`${tableKey}-empty-cell`}
+          align="center"
+          colSpan={rowHeaders.length}
+        >
+          No data
+        </TableCell>
+      </TableRow>
+    );
   };
 
   return (
@@ -174,6 +212,7 @@ const BasicTable = ({
           sx={{ minWidth: 650 }}
           aria-label="simple table"
           key={`table-${tableKey}`}
+          id={`table-${tableKey}`}
         >
           <TableHead>
             <TableRow key={`${tableKey}-table-head-row`}>
@@ -181,42 +220,22 @@ const BasicTable = ({
             </TableRow>
           </TableHead>
           <TableBody key={`${tableKey}-table-body-row`}>
-            {rowData && rowData.length! > 0 ? (
-              rowData.map((row: any, index: number) => (
-                <Fragment key={`${tableKey}-}-table-body-row-${index}`}>
-                  <TableRow
-                    key={`${row}-${index}`}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    {renderRowData(row)}
-                    {renderActions(row)}
-                  </TableRow>
-                </Fragment>
-              ))
-            ) : (
-              <TableRow key={`${tableKey}-empty-row`}>
-                <TableCell
-                  key={`${tableKey}-empty-cell`}
-                  align="center"
-                  colSpan={rowHeaders.length}
-                >
-                  No data
-                </TableCell>
-              </TableRow>
-            )}
+            {renderTableBody()}
           </TableBody>
         </Table>
       </TableContainer>
 
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={5}
-        rowsPerPage={5}
-        page={0}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
-      />
+      {rowData?.length > 0 && (
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rowData?.length!}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      )}
     </Fragment>
   );
 };
